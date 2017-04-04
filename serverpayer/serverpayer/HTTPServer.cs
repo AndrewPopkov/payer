@@ -6,6 +6,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Threading;
 using System.Net;
+using System.Text.RegularExpressions;
 
 namespace serverHttp
 {
@@ -49,7 +50,10 @@ namespace serverHttp
                 running = true;
                 this.contentPath = contentPath;
             }
-            catch { return false; }
+            catch 
+            { 
+                return false; 
+            }
 
             // Наш поток ждет новые подключения и создает новые потоки.
             Thread requestListenerT = new Thread(() =>
@@ -69,7 +73,7 @@ namespace serverHttp
                             { 
                                 handleTheRequest(clientSocket); 
                             }
-                            catch
+                            catch (Exception ex)
                             {
                                 try 
                                 { 
@@ -77,12 +81,16 @@ namespace serverHttp
                                 }
                                 catch 
                                 {
+
                                 }
                             }
                         });
                         requestHandler.Start();
                     }
-                    catch { }
+                    catch(Exception ex)
+                    {
+                        
+                    }
                 }
             });
             requestListenerT.Start();
@@ -95,26 +103,73 @@ namespace serverHttp
             if (running)
             {
                 running = false;
-                try { serverSocket.Close(); }
-                catch { }
+                try 
+                { 
+                    serverSocket.Close(); 
+                }
+                catch (Exception ex)
+                {
+
+                }
                 serverSocket = null;
             }
         }
 
         private void handleTheRequest(Socket clientSocket)
         {
+            string requestedFile;
             byte[] buffer = new byte[10240]; // 10 kb, just in case
             int receivedBCount = clientSocket.Receive(buffer); // Получаем запрос
             string strReceived = charEncoder.GetString(buffer, 0, receivedBCount);
+            //Match ReqMatch = Regex.Match(strReceived, @"^\w+\s+([^\s\?]+)[^\s]*\s+HTTP/.*|");
+            //string RequestUri = ReqMatch.Groups[1].Value;
+            //var str0 = ReqMatch.Groups[0].Value;
+            //var str2 = ReqMatch.Groups[2].Value;
 
             // Парсим запрос
-            string httpMethod = strReceived.Substring(0, strReceived.IndexOf(" "));
-
+            string httpHead = strReceived.Substring(0, strReceived.IndexOf("\r\n"));
+            //"GET /api?order_id=41 HTTP/1.1"
+            string httpMethod = httpHead.Substring(0, httpHead.IndexOf(" "));
+            //var strcond = @"^GET\w*HTTP$";
+            Match ReqMatch = Regex.Match(httpHead, @"GET\b \bHTTP/");
+           // Match ReqMatch = Regex.Match(strReceived, @"^\w+\s+([^\s\?]+)[^\s]*\s+HTTP/.*|");
+            var str0 = ReqMatch.Groups[0].Value;
             int start = strReceived.IndexOf(httpMethod) + httpMethod.Length + 1;
             int length = strReceived.LastIndexOf("HTTP") - start - 1;
             string requestedUrl = strReceived.Substring(start, length);
 
-            string requestedFile;
+            switch (httpMethod)
+            {
+                case "GET":
+                    requestedFile = requestedUrl.Split('?')[0];
+                    break;
+
+                case "HEAD":
+
+                    break;
+
+                case "POST":
+                    requestedFile = requestedUrl.Split('?')[0];
+                    break;
+
+                case "PUT":
+
+                    break;
+
+                case "DELETE":
+
+
+                    break;
+              
+                default:
+
+                    notImplemented(clientSocket);
+
+                    break;
+            }
+
+           
+
             if (httpMethod.Equals("GET") || httpMethod.Equals("POST"))
                 requestedFile = requestedUrl.Split('?')[0];
             else // Вы можете реализовать другие методы
@@ -122,7 +177,7 @@ namespace serverHttp
                 notImplemented(clientSocket);
                 return;
             }
-
+            //обработка запроса для нахождения файла  в файловом менеджере
             requestedFile = requestedFile.Replace("/", "\\").Replace("\\..", ""); // Not to go back
             start = requestedFile.LastIndexOf('.') + 1;
             if (start > 0)
@@ -188,7 +243,10 @@ namespace serverHttp
                 clientSocket.Send(bContent);
                 clientSocket.Close();
             }
-            catch { }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

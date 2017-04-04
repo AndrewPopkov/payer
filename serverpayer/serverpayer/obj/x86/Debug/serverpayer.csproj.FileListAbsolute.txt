@@ -1,0 +1,4 @@
+C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\bin\Debug\serverpayer.exe
+C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\bin\Debug\serverpayer.pdb
+C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\obj\x86\Debug\serverpayer.exe
+C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\obj\x86\Debug\serverpayer.pdb
