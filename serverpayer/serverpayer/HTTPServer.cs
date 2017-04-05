@@ -11,7 +11,6 @@ namespace serverpayer
     class Server
     {
         public bool running = false; //Запущено ли?
-        private APIFacade apifacade;
         private int timeout = 8; // Лиммт времени на приём данных.
         private Encoding charEncoder = Encoding.UTF8; // Кодировка
         private Socket serverSocket; // Нащ сокет
@@ -133,7 +132,7 @@ namespace serverpayer
             //string requestedUrl = strReceived.Substring(start, length);
             if(Regex.Match(requestedUrl,@"^(/api)").Success)
             {
-                apifacade = new APIFacade(requestedUrl);
+                apifacade = new APIFacade(requestedUrl).ge;
             }
             switch (httpMethod)
             {
