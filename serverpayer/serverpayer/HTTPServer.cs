@@ -119,7 +119,7 @@ namespace serverpayer
             //Match ReqMatch = Regex.Match(strReceived, @"^\w+\s+([^\s\?]+)[^\s]*\s+HTTP/.*|");
             // Парсим запрос
             string httpHead = strReceived.Substring(0, strReceived.IndexOf("\r\n"));
-            //"GET /api?order_id=41 HTTP/1.1"
+            //"GET /api/pay?order_id=41 HTTP/1.1"
             string httpMethod = httpHead.Substring(0, httpHead.IndexOf(" "));
             Regex re = new Regex(httpHead.Substring(0, httpHead.IndexOf(" ")+1), RegexOptions.IgnoreCase);
             string requestedUrl = re.Replace(httpHead, "");
@@ -132,70 +132,75 @@ namespace serverpayer
             //string requestedUrl = strReceived.Substring(start, length);
             if(Regex.Match(requestedUrl,@"^(/api)").Success)
             {
-                apifacade = new APIFacade(requestedUrl).ge;
+               // apifacade = new APIFacade(requestedUrl).ge;
+                APIFacade.getResult(requestedUrl);
             }
-            switch (httpMethod)
+            else
             {
-                case "GET":
+                switch (httpMethod)
+                {
+                    case "GET":
+                        requestedFile = requestedUrl.Split('?')[0];
+                        break;
+
+                    case "POST":
+                        requestedFile = requestedUrl.Split('?')[0];
+                        break;
+
+                    case "PUT":
+
+                        break;
+
+                    case "DELETE":
+
+
+                        break;
+
+                    default:
+
+                        notImplemented(clientSocket);
+
+                        break;
+                }
+
+
+
+                if (httpMethod.Equals("GET") || httpMethod.Equals("POST"))
                     requestedFile = requestedUrl.Split('?')[0];
-                    break;
-
-                case "POST":
-                    requestedFile = requestedUrl.Split('?')[0];
-                    break;
-
-                case "PUT":
-
-                    break;
-
-                case "DELETE":
-
-
-                    break;
-              
-                default:
-
+                else // Вы можете реализовать другие методы
+                {
                     notImplemented(clientSocket);
-
-                    break;
+                    return;
+                }
+                //обработка запроса для нахождения файла  в файловом менеджере
+                requestedFile = requestedFile.Replace("/", "\\").Replace("\\..", ""); // Not to go back
+                //start = requestedFile.LastIndexOf('.') + 1;
+                //if (start > 0)
+                //{
+                //    length = requestedFile.Length - start;
+                //    string extension = requestedFile.Substring(start, length);
+                //    if (extensions.ContainsKey(extension)) // Мы поддерживаем это расширение?
+                //        if (File.Exists(contentPath + requestedFile)) // Если да
+                //            // ТО отсылаем запрашиваемы контент:
+                //            sendOkResponse(clientSocket, File.ReadAllBytes(contentPath + requestedFile), extensions[extension]);
+                //        else
+                //            notFound(clientSocket); // Мы не поддерживаем данный контент.
+                //}
+                //else
+                //{
+                //    // Если файл не указан, пробуем послать index.html
+                //    // Вы можете добавить больше(например "default.html")
+                //    if (requestedFile.Substring(length - 1, 1) != "\\")
+                //        requestedFile += "\\";
+                //    if (File.Exists(contentPath + requestedFile + "index.htm"))
+                //        sendOkResponse(clientSocket, File.ReadAllBytes(contentPath + requestedFile + "\\index.htm"), "text/html");
+                //    else if (File.Exists(contentPath + requestedFile + "index.html"))
+                //        sendOkResponse(clientSocket, File.ReadAllBytes(contentPath + requestedFile + "\\index.html"), "text/html");
+                //    else
+                //        notFound(clientSocket);
+                //}
             }
-
            
-
-            if (httpMethod.Equals("GET") || httpMethod.Equals("POST"))
-                requestedFile = requestedUrl.Split('?')[0];
-            else // Вы можете реализовать другие методы
-            {
-                notImplemented(clientSocket);
-                return;
-            }
-            //обработка запроса для нахождения файла  в файловом менеджере
-            requestedFile = requestedFile.Replace("/", "\\").Replace("\\..", ""); // Not to go back
-            //start = requestedFile.LastIndexOf('.') + 1;
-            //if (start > 0)
-            //{
-            //    length = requestedFile.Length - start;
-            //    string extension = requestedFile.Substring(start, length);
-            //    if (extensions.ContainsKey(extension)) // Мы поддерживаем это расширение?
-            //        if (File.Exists(contentPath + requestedFile)) // Если да
-            //            // ТО отсылаем запрашиваемы контент:
-            //            sendOkResponse(clientSocket, File.ReadAllBytes(contentPath + requestedFile), extensions[extension]);
-            //        else
-            //            notFound(clientSocket); // Мы не поддерживаем данный контент.
-            //}
-            //else
-            //{
-            //    // Если файл не указан, пробуем послать index.html
-            //    // Вы можете добавить больше(например "default.html")
-            //    if (requestedFile.Substring(length - 1, 1) != "\\")
-            //        requestedFile += "\\";
-            //    if (File.Exists(contentPath + requestedFile + "index.htm"))
-            //        sendOkResponse(clientSocket, File.ReadAllBytes(contentPath + requestedFile + "\\index.htm"), "text/html");
-            //    else if (File.Exists(contentPath + requestedFile + "index.html"))
-            //        sendOkResponse(clientSocket, File.ReadAllBytes(contentPath + requestedFile + "\\index.html"), "text/html");
-            //    else
-            //        notFound(clientSocket);
-            //}
         }
 
         private void notImplemented(Socket clientSocket)

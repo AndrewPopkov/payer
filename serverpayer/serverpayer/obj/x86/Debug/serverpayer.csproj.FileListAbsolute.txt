@@ -7,3 +7,4 @@ C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\obj\x86\Debug\server
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\serverpayer.exe
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\serverpayer.pdb
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\obj\x86\Debug\serverpayer.csprojResolveAssemblyReference.cache
+C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\obj\x86\Debug\serverpayer.csprojResolveAssemblyReference.cache
