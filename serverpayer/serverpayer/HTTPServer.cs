@@ -116,7 +116,6 @@ namespace serverpayer
             byte[] buffer = new byte[10240]; // 10 kb, just in case
             int receivedBCount = clientSocket.Receive(buffer); // Получаем запрос
             string strReceived = charEncoder.GetString(buffer, 0, receivedBCount);
-            //Match ReqMatch = Regex.Match(strReceived, @"^\w+\s+([^\s\?]+)[^\s]*\s+HTTP/.*|");
             // Парсим запрос
             string httpHead = strReceived.Substring(0, strReceived.IndexOf("\r\n"));
             //"GET /api/pay?order_id=41 HTTP/1.1"
@@ -132,7 +131,7 @@ namespace serverpayer
             //string requestedUrl = strReceived.Substring(start, length);
             if(Regex.Match(requestedUrl,@"^(/api)").Success)
             {
-               // apifacade = new APIFacade(requestedUrl).ge;
+                requestedUrl=requestedUrl.Replace("/api/", string.Empty);
                 APIFacade.getResult(requestedUrl);
             }
             else

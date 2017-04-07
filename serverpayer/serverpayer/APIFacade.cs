@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using APIMetods;
 //using Newtonsoft.Json.Linq;
 
 namespace serverpayer
@@ -12,18 +13,24 @@ namespace serverpayer
         private string urlAPI;
         private string curentMethod;
         private List<string> paramsMethod;
-        Dictionary<string, Delegate> listMethods;
+        Dictionary<string, MulticastDelegate> listMethods;
         //добавляем нужные фукции апи
         private void  InitializationAPI()
         {
-            this.listMethods = new Dictionary<string, Delegate>();
-
+            this.listMethods = new Dictionary<string, MulticastDelegate>();
+            Func<int, string, int, int, int, decimal, string, int> Pay = PaymentFun.Pay;
+            this.listMethods.Add("Pay", Pay);
         }
+        //private void  InitializationPay()
+        //{
+        //    delegate  int Pay(int order_id, string card_number, int expiry_month, int expiry_year, int cvv,  decimal amount_kop, string cardholder_name = "");
+        //}
+
+            
+
         private string getMethod()
         {
             string buf=string.Empty;
-            Regex re = new Regex(@"(/api/)", RegexOptions.IgnoreCase);
-            this.urlAPI = re.Replace(this.urlAPI, "");
             buf = urlAPI.Substring(0, this.urlAPI.IndexOf("?"));
             if (buf == string.Empty)
             {
@@ -34,25 +41,18 @@ namespace serverpayer
         }
         private List<string> getParams()
         {
+            
             Regex re = new Regex(@"([?]\w*=\w*)", RegexOptions.IgnoreCase);
             if (re.Matches(this.urlAPI).Count > 0)
             {
+                this.paramsMethod = new List<string>();
                 foreach (Match match in re.Matches(urlAPI))
                 {
                     Regex reInside = new Regex(@"([=]\w*$)", RegexOptions.IgnoreCase);
-                    match.Value
+                    this.paramsMethod.Add(reInside.Match(match.Value).Value.Replace("=", string.Empty));
 
                 }
             }
-            else
-            {
-                Console.WriteLine("Совпадений не найдено");
-            }
-
-            //if (buf == string.Empty)
-            //{
-            //    throw new ArgumentException("Некоректная строка запроса к функции API, невозможно выбрать используемый метод");
-            //}
             return paramsMethod;
         }
 
@@ -62,9 +62,8 @@ namespace serverpayer
             InitializationAPI();
             this.curentMethod = getMethod();
             this.paramsMethod=getParams();
-
         }
-        //switchMethod()
+
         public static string  /*JObject*/ getResult(string url)
         {
             APIFacade curentFacade = new APIFacade(url);

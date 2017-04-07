@@ -2,3 +2,4 @@ C:\Users\Popkov\Documents\GitHub\payer\serverpayer\APIMetods\bin\Debug\APIMetods
 C:\Users\Popkov\Documents\GitHub\payer\serverpayer\APIMetods\bin\Debug\APIMetods.pdb
 C:\Users\Popkov\Documents\GitHub\payer\serverpayer\APIMetods\obj\Debug\APIMetods.dll
 C:\Users\Popkov\Documents\GitHub\payer\serverpayer\APIMetods\obj\Debug\APIMetods.pdb
+C:\Users\Popkov\Documents\GitHub\payer\serverpayer\APIMetods\obj\Debug\APIMetods.csprojResolveAssemblyReference.cache
