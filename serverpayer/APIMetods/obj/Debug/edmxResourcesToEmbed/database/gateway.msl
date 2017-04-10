@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище bankGatewayModelContainer" CdmEntityContainer="bankGatewayEntities">
+    <EntitySetMapping Name="card_t">
+      <EntityTypeMapping TypeName="bankGatewayModel.card_t">
+        <MappingFragment StoreEntitySet="card_t">
+          <ScalarProperty Name="card_id" ColumnName="card_id" />
+          <ScalarProperty Name="card_number" ColumnName="card_number" />
+          <ScalarProperty Name="expiry_month" ColumnName="expiry_month" />
+          <ScalarProperty Name="expiry_year" ColumnName="expiry_year" />
+          <ScalarProperty Name="cvv" ColumnName="cvv" />
+          <ScalarProperty Name="cardholder_name" ColumnName="cardholder_name" />
+          <ScalarProperty Name="cash" ColumnName="cash" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="order_t">
+      <EntityTypeMapping TypeName="bankGatewayModel.order_t">
+        <MappingFragment StoreEntitySet="order_t">
+          <ScalarProperty Name="order_id" ColumnName="order_id" />
+          <ScalarProperty Name="consumer_id" ColumnName="consumer_id" />
+          <ScalarProperty Name="vendor_id" ColumnName="vendor_id" />
+          <ScalarProperty Name="amount_kop" ColumnName="amount_kop" />
+          <ScalarProperty Name="status_id" ColumnName="status_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="status_t">
+      <EntityTypeMapping TypeName="bankGatewayModel.status_t">
+        <MappingFragment StoreEntitySet="status_t">
+          <ScalarProperty Name="status_id" ColumnName="status_id" />
+          <ScalarProperty Name="mesasage" ColumnName="mesasage" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

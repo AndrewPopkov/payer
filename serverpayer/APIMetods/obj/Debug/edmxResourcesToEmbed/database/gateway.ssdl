@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище bankGatewayModel" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="Хранилище bankGatewayModelContainer">
+    <EntitySet Name="card_t" EntityType="Хранилище bankGatewayModel.card_t" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="order_t" EntityType="Хранилище bankGatewayModel.order_t" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="status_t" EntityType="Хранилище bankGatewayModel.status_t" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_order_consumer" Association="Хранилище bankGatewayModel.FK_order_consumer">
+      <End Role="card_t" EntitySet="card_t" />
+      <End Role="order_t" EntitySet="order_t" />
+    </AssociationSet>
+    <AssociationSet Name="FK_order_status" Association="Хранилище bankGatewayModel.FK_order_status">
+      <End Role="status_t" EntitySet="status_t" />
+      <End Role="order_t" EntitySet="order_t" />
+    </AssociationSet>
+    <AssociationSet Name="FK_order_vendor" Association="Хранилище bankGatewayModel.FK_order_vendor">
+      <End Role="card_t" EntitySet="card_t" />
+      <End Role="order_t" EntitySet="order_t" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="card_t">
+    <Key>
+      <PropertyRef Name="card_id" />
+    </Key>
+    <Property Name="card_id" Type="int" Nullable="false" />
+    <Property Name="card_number" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="expiry_month" Type="int" Nullable="false" />
+    <Property Name="expiry_year" Type="int" Nullable="false" />
+    <Property Name="cvv" Type="int" Nullable="false" />
+    <Property Name="cardholder_name" Type="nvarchar" MaxLength="50" />
+    <Property Name="cash" Type="money" />
+  </EntityType>
+  <EntityType Name="order_t">
+    <Key>
+      <PropertyRef Name="order_id" />
+    </Key>
+    <Property Name="order_id" Type="int" Nullable="false" />
+    <Property Name="consumer_id" Type="int" Nullable="false" />
+    <Property Name="vendor_id" Type="int" Nullable="false" />
+    <Property Name="amount_kop" Type="money" Nullable="false" />
+    <Property Name="status_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="status_t">
+    <Key>
+      <PropertyRef Name="status_id" />
+    </Key>
+    <Property Name="status_id" Type="int" Nullable="false" />
+    <Property Name="mesasage" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <Association Name="FK_order_consumer">
+    <End Role="card_t" Type="Хранилище bankGatewayModel.card_t" Multiplicity="1" />
+    <End Role="order_t" Type="Хранилище bankGatewayModel.order_t" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="card_t">
+        <PropertyRef Name="card_id" />
+      </Principal>
+      <Dependent Role="order_t">
+        <PropertyRef Name="consumer_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_order_status">
+    <End Role="status_t" Type="Хранилище bankGatewayModel.status_t" Multiplicity="1" />
+    <End Role="order_t" Type="Хранилище bankGatewayModel.order_t" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="status_t">
+        <PropertyRef Name="status_id" />
+      </Principal>
+      <Dependent Role="order_t">
+        <PropertyRef Name="status_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_order_vendor">
+    <End Role="card_t" Type="Хранилище bankGatewayModel.card_t" Multiplicity="1" />
+    <End Role="order_t" Type="Хранилище bankGatewayModel.order_t" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="card_t">
+        <PropertyRef Name="card_id" />
+      </Principal>
+      <Dependent Role="order_t">
+        <PropertyRef Name="vendor_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

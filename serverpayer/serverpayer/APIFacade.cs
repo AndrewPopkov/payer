@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using APIMetods;
-//using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace serverpayer
 {
@@ -13,17 +13,32 @@ namespace serverpayer
         private string urlAPI;
         private string curentMethod;
         private List<string> paramsMethod;
-        Dictionary<string, MulticastDelegate> listMethods;
+        Dictionary<string, Func<params string[], JObject>> listMethods;
         //добавляем нужные фукции апи
         private void  InitializationAPI()
         {
-            this.listMethods = new Dictionary<string, MulticastDelegate>();
+            this.listMethods = new Dictionary<string, Func<string[], JObject>>();
             InitializationPay();
+            InitializationGetStatus();
+            InitializationRefund();
         }
-        private void  InitializationPay()
+        private void InitializationGetStatus()
         {
-            Func<int, string, int, int, int, decimal, string, int> Pay = PaymentFun.Pay;
+            PaymentFun paymentfun = new PaymentFun();
+            Func< string[] , JObject> Pay = paymentfun.GetStatus;
+            this.listMethods.Add("GetStatus", Pay);
+        }
+        private void InitializationPay()
+        {
+            PaymentFun paymentfun = new PaymentFun();
+            Func<string, string, string, string, string, string, string, JObject> Pay = paymentfun.Pay;
             this.listMethods.Add("Pay", Pay);
+        }
+        private void InitializationRefund()
+        {
+            PaymentFun paymentfun = new PaymentFun();
+            Func<string,  JObject> Pay = paymentfun.Refund;
+            this.listMethods.Add("Refund", Pay);
         }
 
             
@@ -67,8 +82,7 @@ namespace serverpayer
         public static string  /*JObject*/ getResult(string url)
         {
             APIFacade curentFacade = new APIFacade(url);
-
-            /*return new JObject();*/
+            curentFacade.listMethods[curentFacade.curentMethod]();
             return string.Empty;
 
         }

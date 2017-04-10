@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Data.Entity;
 using Newtonsoft.Json.Linq;
+using System.Text.RegularExpressions;
 
 namespace APIMetods
 {
@@ -16,60 +17,167 @@ namespace APIMetods
             BankError,
             WrongData,
             CloseLimit,
+            ValidationError
         }
-        public static JObject Pay(int order_id, string card_number, int expiry_month, int expiry_year, int cvv, decimal amount_kop, string cardholder_name = "")
+        private int order_id;
+        private string card_number;
+        private int expiry_month;
+        private int expiry_year;
+        private int cvv;
+        private decimal amount_kop;
+        private string cardholder_name;
+        public PaymentFun()
+        {
+
+        }
+
+        private bool RefundValidationParams(string str_order_id)
+        {
+            bool ValidationData = false;
+            if (Regex.Match(str_order_id, @"(\d+)").Success)
+            {
+                ValidationData = int.TryParse(str_order_id, out this.order_id);
+            }
+            return ValidationData;
+        }
+
+        private bool GetStatusValidationParams(string str_order_id)
+        {
+            bool ValidationData = false;
+            if (Regex.Match(str_order_id, @"(\d+)").Success)
+            {
+                ValidationData = int.TryParse(str_order_id, out this.order_id);
+            }
+            return ValidationData;
+        }
+        private bool PayValidationParams(string str_order_id, string card_number, string str_expiry_month,
+                                         string str_expiry_year, string str_cvv, string str_amount_kop,
+                                         string cardholder_name)
+        {
+            bool ValidationData = false;
+            if (Regex.Match(card_number, @"(\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d)").Success)
+            {
+                ValidationData = true;
+                this.card_number = card_number;
+            }
+            if (Regex.Match(str_order_id, @"(\d+)").Success)
+            {
+                ValidationData = int.TryParse(str_order_id, out this.order_id);
+            }
+            if (Regex.Match(str_expiry_month, @"(\d\d)").Success)
+            {
+                if (int.TryParse(str_expiry_month, out this.expiry_month))
+                {
+                    if (this.expiry_month > 0 && this.expiry_month <= 12)
+                    {
+                        ValidationData = true;
+                    }
+                }
+            }
+            if (Regex.Match(str_expiry_month, @"(\d\d\d\d)").Success)
+            {
+                if (int.TryParse(str_expiry_year, out this.expiry_year))
+                {
+                    if (this.expiry_year > 2000 && this.expiry_month <= 2100)
+                    {
+                        ValidationData = true;
+                    }
+                }
+            }
+            if (Regex.Match(str_cvv, @"(\d\d\d)").Success)
+            {
+                if (int.TryParse(str_cvv, out this.cvv))
+                {
+                    ValidationData = true;
+                }
+            }
+            if (Regex.Match(str_amount_kop, @"(\d+)").Success)
+            {
+                if (decimal.TryParse(str_amount_kop, out this.amount_kop))
+                {
+                    ValidationData = true;
+                }
+            }
+            return ValidationData;
+
+        }
+        public JObject Pay(string order_id, string card_number, string expiry_month, string expiry_year, string cvv, string amount_kop, string cardholder_name = "")
         {
             int status;
             JObject result = null;
             status_t statusobj;
-            using (bankGatewayEntities db = new bankGatewayEntities())
+
+            if (PayValidationParams(order_id, card_number, expiry_month, expiry_year, cvv, amount_kop, cardholder_name))
             {
-                using (var transaction = db.Database.BeginTransaction())
+
+                using (bankGatewayEntities db = new bankGatewayEntities())
                 {
-                    try
+                    using (var transaction = db.Database.BeginTransaction())
                     {
-                        
-                        card_t vendorCard = db.card_t.Find(1);
-                        card_t consumerCard = db.card_t.Where(p => p.card_number == card_number &&
-                                                            p.expiry_month == expiry_month &&
-                                                            p.expiry_year == expiry_year &&
-                                                            p.cvv == cvv && cardholder_name != null ? p.cardholder_name == cardholder_name : true).FirstOrDefault();
-                        if ( consumerCard!= null)
+                        try
                         {
 
-                            if (amount_kop > consumerCard.cash)
+                            int vendorCard_id = 1;
+                            card_t consumerCard = db.card_t.Where(p => p.card_number == card_number &&
+                                                                p.expiry_month == this.expiry_month &&
+                                                                p.expiry_year == this.expiry_year &&
+                                                                p.cvv == this.cvv && cardholder_name != null ? p.cardholder_name == cardholder_name : true).FirstOrDefault();
+                            if (consumerCard != null)
                             {
-                                status = (int)statusEnum.CloseLimit;
+
+                                if (this.amount_kop > consumerCard.cash)
+                                {
+                                    status = (int)statusEnum.CloseLimit;
+                                }
+                                else
+                                {
+                                    status = (int)statusEnum.Ok;
+                                    consumerCard.cash -= this.amount_kop;
+
+                                }
+
                             }
                             else
                             {
-                                status = (int)statusEnum.Ok;
-                                consumerCard.cash -= amount_kop;
-                                
+                                status = (int)statusEnum.WrongData;
                             }
 
+                            order_t order = new order_t()
+                            {
+                                consumer_id = consumerCard.card_id,
+                                vendor_id = vendorCard_id,
+                                status_id = status,
+                                order_id = this.order_id,
+                                amount_kop = this.amount_kop
+                            };
+                            db.order_t.Add(order);
+                            db.SaveChanges();
+                            transaction.Commit();
+                            statusobj = db.status_t.Find(status);
+                            result = new JObject(statusobj);
                         }
-                        else
+
+                        catch (Exception ex)
                         {
-                            status = (int)statusEnum.WrongData;
+                            transaction.Rollback();
+                            Log.Write(ex);
                         }
-                        order_t order = new order_t()
-                        {
-                            consumer_id = consumerCard.card_id,
-                            vendor_id = vendorCard.card_id,
-                            status_id = status,
-                            order_id = order_id,
-                            amount_kop = amount_kop
-                        };
-                        db.order_t.Add(order);
-                        db.SaveChanges();
-                        transaction.Commit();
+                    }
+                }
+            }
+            else
+            {
+                status = (int)statusEnum.ValidationError;
+                using (bankGatewayEntities db = new bankGatewayEntities())
+                {
+                    try
+                    {
                         statusobj = db.status_t.Find(status);
                         result = new JObject(statusobj);
+
                     }
                     catch (Exception ex)
                     {
-                        transaction.Rollback();
                         Log.Write(ex);
                     }
                 }
@@ -77,34 +185,114 @@ namespace APIMetods
 
             return result;
         }
-        public static JObject GetStatus(int order_id)
+        public JObject GetStatus(string order_id)
         {
-            JObject result=null;
+            JObject result = null;
             status_t status;
-            using (bankGatewayEntities db = new bankGatewayEntities())
+            if (GetStatusValidationParams(order_id))
             {
-                try
+                using (bankGatewayEntities db = new bankGatewayEntities())
                 {
-                     order_t order = db.order_t.Find(order_id);
-                     if (order != null)
-                     {
-                         status = db.status_t.Find(order.status_id);
-                         result = new JObject(status);
-                     }  
-                }
-                catch (Exception ex)
-                {
-                    Log.Write(ex);
-                }    
+                    try
+                    {
+                        order_t order = db.order_t.Find(this.order_id);
+                        if (order != null)
+                        {
+                            status = db.status_t.Find(order.status_id);
+                            result = new JObject(status);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Write(ex);
+                    }
 
-               
+
+                }
             }
+            else
+            {
+                using (bankGatewayEntities db = new bankGatewayEntities())
+                {
+                    try
+                    {
+                        status = db.status_t.Find((int)statusEnum.ValidationError);
+                        result = new JObject(status);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Write(ex);
+                    }
+                }
+            }
+
 
             return result;
         }
-        public static int Refund(int order_id)
+        public JObject Refund(string order_id)
         {
-            return 0;
+            JObject result = null;
+            status_t status;
+            if (RefundValidationParams(order_id))
+            {
+                using (bankGatewayEntities db = new bankGatewayEntities())
+                {
+                    using (var transaction = db.Database.BeginTransaction())
+                    {
+                        try
+                        {
+
+                            order_t order = db.order_t.Find(this.order_id);
+                            if (order != null)
+                            {
+                                card_t consumer_card = db.card_t.Find(order.consumer_id);
+                                if (consumer_card != null)
+                                {
+                                    consumer_card.cash += order.amount_kop;
+                                    order.status_id = (int)statusEnum.BackTransaction;
+                                    db.SaveChanges();
+                                    transaction.Commit();
+                                    status = db.status_t.Find((int)statusEnum.Ok);
+                                }
+                            }
+                            else
+                            {
+                                status = db.status_t.Find((int)statusEnum.WrongData);
+                            }
+                          
+                            result = new JObject(status);
+                        }
+
+                        catch (Exception ex)
+                        {
+                            transaction.Rollback();
+                            Log.Write(ex);
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                using (bankGatewayEntities db = new bankGatewayEntities())
+                {
+                    try
+                    {
+                        status = db.status_t.Find((int)statusEnum.ValidationError);
+                        result = new JObject(status);
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Write(ex);
+                    }
+                }
+            }
+
+
+            return result;
         }
     }
 }
