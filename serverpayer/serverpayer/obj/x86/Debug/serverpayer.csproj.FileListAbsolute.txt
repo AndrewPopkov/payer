@@ -8,3 +8,6 @@ C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\serverpaye
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\serverpayer.pdb
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\obj\x86\Debug\serverpayer.csprojResolveAssemblyReference.cache
 C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\obj\x86\Debug\serverpayer.csprojResolveAssemblyReference.cache
+C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\APIMetods.dll
+C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\APIMetods.pdb
+C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\database\bankGateway.sdf

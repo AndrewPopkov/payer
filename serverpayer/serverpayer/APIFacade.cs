@@ -18,13 +18,13 @@ namespace serverpayer
         private void  InitializationAPI()
         {
             this.listMethods = new Dictionary<string, MulticastDelegate>();
+            InitializationPay();
+        }
+        private void  InitializationPay()
+        {
             Func<int, string, int, int, int, decimal, string, int> Pay = PaymentFun.Pay;
             this.listMethods.Add("Pay", Pay);
         }
-        //private void  InitializationPay()
-        //{
-        //    delegate  int Pay(int order_id, string card_number, int expiry_month, int expiry_year, int cvv,  decimal amount_kop, string cardholder_name = "");
-        //}
 
             
 

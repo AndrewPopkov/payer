@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIFacade.cs" />
-    <Compile Include="DataCaller.cs" />
     <Compile Include="HTTPServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
