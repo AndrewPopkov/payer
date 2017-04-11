@@ -14,11 +14,12 @@ namespace APIMetods
         {
             Ok,
             BackTransaction,
-            BankError,
             WrongData,
             CloseLimit,
             ValidationError
         }
+        //ид банка
+        private readonly int vendorCard_id = 1;
         private int order_id;
         private string card_number;
         private int expiry_month;
@@ -30,7 +31,13 @@ namespace APIMetods
         {
 
         }
-
+        private JObject GetValidationError()
+        {
+            JObject result = new JObject();
+            result.Add("id", (int)statusEnum.ValidationError);
+            result.Add("mesasage", "Ошибка валидации");
+            return result;
+        }
         private bool RefundValidationParams(string str_order_id)
         {
             bool ValidationData = false;
@@ -98,6 +105,7 @@ namespace APIMetods
                     ValidationData = true;
                 }
             }
+            this.cardholder_name = cardholder_name;
             return ValidationData;
 
         }
@@ -116,8 +124,6 @@ namespace APIMetods
                     {
                         try
                         {
-
-                            int vendorCard_id = 1;
                             card_t consumerCard = db.card_t.Where(p => p.card_number == card_number &&
                                                                 p.expiry_month == this.expiry_month &&
                                                                 p.expiry_year == this.expiry_year &&
@@ -167,20 +173,8 @@ namespace APIMetods
             }
             else
             {
-                status = (int)statusEnum.ValidationError;
-                using (bankGatewayEntities db = new bankGatewayEntities())
-                {
-                    try
-                    {
-                        statusobj = db.status_t.Find(status);
-                        result = new JObject(statusobj);
 
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Write(ex);
-                    }
-                }
+               result = GetValidationError();
             }
 
             return result;
@@ -212,19 +206,7 @@ namespace APIMetods
             }
             else
             {
-                using (bankGatewayEntities db = new bankGatewayEntities())
-                {
-                    try
-                    {
-                        status = db.status_t.Find((int)statusEnum.ValidationError);
-                        result = new JObject(status);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Write(ex);
-                    }
-                }
+                result = GetValidationError();
             }
 
 
@@ -254,14 +236,16 @@ namespace APIMetods
                                     db.SaveChanges();
                                     transaction.Commit();
                                     status = db.status_t.Find((int)statusEnum.Ok);
+                                    result = new JObject(status);
                                 }
                             }
                             else
                             {
                                 status = db.status_t.Find((int)statusEnum.WrongData);
+                                result = new JObject(status);
                             }
                           
-                            result = new JObject(status);
+                            
                         }
 
                         catch (Exception ex)
@@ -275,23 +259,8 @@ namespace APIMetods
             }
             else
             {
-                using (bankGatewayEntities db = new bankGatewayEntities())
-                {
-                    try
-                    {
-                        status = db.status_t.Find((int)statusEnum.ValidationError);
-                        result = new JObject(status);
-
-
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Write(ex);
-                    }
-                }
+                result = GetValidationError();
             }
-
-
             return result;
         }
     }

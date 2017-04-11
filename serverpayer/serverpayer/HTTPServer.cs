@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Net;
 using System.Text.RegularExpressions;
+using LogHelper;
 
 namespace serverpayer
 {
@@ -76,7 +77,7 @@ namespace serverpayer
                                 }
                                 catch 
                                 {
-
+                                    Log.Write(ex);
                                 }
                             }
                         });
@@ -84,7 +85,7 @@ namespace serverpayer
                     }
                     catch(Exception ex)
                     {
-                        
+                        Log.Write(ex);  
                     }
                 }
             });
@@ -104,7 +105,7 @@ namespace serverpayer
                 }
                 catch (Exception ex)
                 {
-
+                    Log.Write(ex);
                 }
                 serverSocket = null;
             }
@@ -241,7 +242,7 @@ namespace serverpayer
             }
             catch (Exception ex)
             {
-
+                Log.Write(ex);
             }
         }
     }

@@ -13,11 +13,11 @@ namespace serverpayer
         private string urlAPI;
         private string curentMethod;
         private List<string> paramsMethod;
-        Dictionary<string, Func<params string[], JObject>> listMethods;
+        Dictionary<string, MulticastDelegate> listMethods;
         //добавляем нужные фукции апи
         private void  InitializationAPI()
         {
-            this.listMethods = new Dictionary<string, Func<string[], JObject>>();
+            this.listMethods = new Dictionary<string, MulticastDelegate>();
             InitializationPay();
             InitializationGetStatus();
             InitializationRefund();
@@ -25,7 +25,7 @@ namespace serverpayer
         private void InitializationGetStatus()
         {
             PaymentFun paymentfun = new PaymentFun();
-            Func< string[] , JObject> Pay = paymentfun.GetStatus;
+            Func< string , JObject> Pay = paymentfun.GetStatus;
             this.listMethods.Add("GetStatus", Pay);
         }
         private void InitializationPay()
@@ -79,11 +79,11 @@ namespace serverpayer
             this.paramsMethod=getParams();
         }
 
-        public static string  /*JObject*/ getResult(string url)
+        public static string  getResult(string url)
         {
             APIFacade curentFacade = new APIFacade(url);
-            curentFacade.listMethods[curentFacade.curentMethod]();
-            return string.Empty;
+            var obj = curentFacade.listMethods[curentFacade.curentMethod].DynamicInvoke(curentFacade.paramsMethod);
+            return (obj as JObject).ToString();
 
         }
     }
