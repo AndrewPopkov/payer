@@ -6,6 +6,7 @@ using System.Threading;
 using System.Net;
 using System.Text.RegularExpressions;
 using LogHelper;
+using System.IO;
 
 namespace serverpayer
 {
@@ -73,7 +74,8 @@ namespace serverpayer
                             {
                                 try 
                                 { 
-                                    clientSocket.Close(); 
+                                    clientSocket.Close();
+                                    Log.Write(ex);
                                 }
                                 catch 
                                 {
@@ -113,23 +115,17 @@ namespace serverpayer
 
         private void handleTheRequest(Socket clientSocket)
         {
-            string requestedFile;
+            string requestedFile=string.Empty;
             byte[] buffer = new byte[10240]; // 10 kb, just in case
             int receivedBCount = clientSocket.Receive(buffer); // Получаем запрос
             string strReceived = charEncoder.GetString(buffer, 0, receivedBCount);
             // Парсим запрос
             string httpHead = strReceived.Substring(0, strReceived.IndexOf("\r\n"));
-            //"GET /api/pay?order_id=41 HTTP/1.1"
             string httpMethod = httpHead.Substring(0, httpHead.IndexOf(" "));
             Regex re = new Regex(httpHead.Substring(0, httpHead.IndexOf(" ")+1), RegexOptions.IgnoreCase);
             string requestedUrl = re.Replace(httpHead, "");
             re = new Regex(@"( HTTP){1}.*$", RegexOptions.IgnoreCase);
             requestedUrl = re.Replace(requestedUrl, "");
-
-            //httpHead.Replace(httpMethod, "");
-            //int start = strReceived.IndexOf(httpMethod) + httpMethod.Length + 1;
-            //int length = strReceived.LastIndexOf("HTTP") - start - 1;
-            //string requestedUrl = strReceived.Substring(start, length);
             if(Regex.Match(requestedUrl,@"^(/api)").Success)
             {
                 requestedUrl=requestedUrl.Replace("/api/", string.Empty);
@@ -159,46 +155,37 @@ namespace serverpayer
                     default:
 
                         notImplemented(clientSocket);
-
-                        break;
+                        return;
                 }
 
-
-
-                if (httpMethod.Equals("GET") || httpMethod.Equals("POST"))
-                    requestedFile = requestedUrl.Split('?')[0];
-                else // Вы можете реализовать другие методы
-                {
-                    notImplemented(clientSocket);
-                    return;
-                }
                 //обработка запроса для нахождения файла  в файловом менеджере
                 requestedFile = requestedFile.Replace("/", "\\").Replace("\\..", ""); // Not to go back
-                //start = requestedFile.LastIndexOf('.') + 1;
-                //if (start > 0)
-                //{
-                //    length = requestedFile.Length - start;
-                //    string extension = requestedFile.Substring(start, length);
-                //    if (extensions.ContainsKey(extension)) // Мы поддерживаем это расширение?
-                //        if (File.Exists(contentPath + requestedFile)) // Если да
-                //            // ТО отсылаем запрашиваемы контент:
-                //            sendOkResponse(clientSocket, File.ReadAllBytes(contentPath + requestedFile), extensions[extension]);
-                //        else
-                //            notFound(clientSocket); // Мы не поддерживаем данный контент.
-                //}
-                //else
-                //{
-                //    // Если файл не указан, пробуем послать index.html
-                //    // Вы можете добавить больше(например "default.html")
-                //    if (requestedFile.Substring(length - 1, 1) != "\\")
-                //        requestedFile += "\\";
-                //    if (File.Exists(contentPath + requestedFile + "index.htm"))
-                //        sendOkResponse(clientSocket, File.ReadAllBytes(contentPath + requestedFile + "\\index.htm"), "text/html");
-                //    else if (File.Exists(contentPath + requestedFile + "index.html"))
-                //        sendOkResponse(clientSocket, File.ReadAllBytes(contentPath + requestedFile + "\\index.html"), "text/html");
-                //    else
-                //        notFound(clientSocket);
-                //}
+                int start = requestedFile.LastIndexOf('.') + 1;
+                int length=0;
+                if (start > 0)
+                {
+                    length = requestedFile.Length - start;
+                    string extension = requestedFile.Substring(start, length);
+                    if (extensions.ContainsKey(extension)) // Мы поддерживаем это расширение?
+                        if (File.Exists(contentPath + requestedFile)) // Если да
+                            // ТО отсылаем запрашиваемы контент:
+                            sendOkResponse(clientSocket, File.ReadAllBytes(contentPath + requestedFile), extensions[extension]);
+                        else
+                            notFound(clientSocket); // Мы не поддерживаем данный контент.
+                }
+                else
+                {
+                    // Если файл не указан, пробуем послать index.html
+                    // Вы можете добавить больше(например "default.html")
+                    if (requestedFile.Substring(length - 1, 1) != "\\")
+                        requestedFile += "\\";
+                    if (File.Exists(contentPath + requestedFile + "index.htm"))
+                        sendOkResponse(clientSocket, File.ReadAllBytes(contentPath + requestedFile + "\\index.htm"), "text/html");
+                    else if (File.Exists(contentPath + requestedFile + "index.html"))
+                        sendOkResponse(clientSocket, File.ReadAllBytes(contentPath + requestedFile + "\\index.html"), "text/html");
+                    else
+                        notFound(clientSocket);
+                }
             }
            
         }

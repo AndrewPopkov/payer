@@ -57,7 +57,7 @@ namespace serverpayer
         private List<string> getParams()
         {
             
-            Regex re = new Regex(@"([?]\w*=\w*)", RegexOptions.IgnoreCase);
+            Regex re = new Regex(@"([?&]\w*=\w*)", RegexOptions.IgnoreCase);
             if (re.Matches(this.urlAPI).Count > 0)
             {
                 this.paramsMethod = new List<string>();
@@ -82,7 +82,7 @@ namespace serverpayer
         public static string  getResult(string url)
         {
             APIFacade curentFacade = new APIFacade(url);
-            var obj = curentFacade.listMethods[curentFacade.curentMethod].DynamicInvoke(curentFacade.paramsMethod);
+            var obj = curentFacade.listMethods[curentFacade.curentMethod].DynamicInvoke(curentFacade.paramsMethod.ToArray<string>());
             return (obj as JObject).ToString();
 
         }

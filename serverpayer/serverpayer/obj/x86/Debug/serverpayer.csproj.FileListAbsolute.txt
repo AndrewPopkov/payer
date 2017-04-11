@@ -18,3 +18,13 @@ C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\Newtonsoft
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\EntityFramework.xml
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\ru\EntityFramework.resources.dll
+C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\bin\Debug\database\bankGateway.mdf
+C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\bin\Debug\database\bankGateway_log.ldf
+C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\bin\Debug\APIMetods.dll
+C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\bin\Debug\EntityFramework.dll
+C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\bin\Debug\APIMetods.pdb
+C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\bin\Debug\EntityFramework.xml
+C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\bin\Debug\ru\EntityFramework.resources.dll

@@ -157,7 +157,8 @@ namespace payerClient.vievmodel
         }  
         private JObject GetPay()
         {
-            var request = new RestRequest();
+            var request = new RestRequest("api/{method}");
+            request.AddParameter("method", "Pay", ParameterType.UrlSegment);
             request.AddParameter("order_id", order_id);
             request.AddParameter("card_number", card_number);
             request.AddParameter("expiry_month", expiry_month);
@@ -167,7 +168,8 @@ namespace payerClient.vievmodel
             request.AddParameter("cardholder_name", cardholder_name);
 
             var restClient = new RestClient();
-            restClient.BaseUrl = new System.Uri("https://127.0.0.1:81");
+            restClient.BaseUrl = new System.Uri("http://127.0.0.1:81");
+            restClient.Encoding = Encoding.UTF8;
             var response = restClient.Execute(request);
             if (response.ErrorException != null)
             {
