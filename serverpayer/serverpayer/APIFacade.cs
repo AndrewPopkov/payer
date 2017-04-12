@@ -25,8 +25,8 @@ namespace serverpayer
         private void InitializationGetStatus()
         {
             PaymentFun paymentfun = new PaymentFun();
-            Func< string , JObject> Pay = paymentfun.GetStatus;
-            this.listMethods.Add("GetStatus", Pay);
+            Func<string, JObject> GetStatus = paymentfun.GetStatus;
+            this.listMethods.Add("GetStatus", GetStatus);
         }
         private void InitializationPay()
         {
@@ -37,8 +37,8 @@ namespace serverpayer
         private void InitializationRefund()
         {
             PaymentFun paymentfun = new PaymentFun();
-            Func<string,  JObject> Pay = paymentfun.Refund;
-            this.listMethods.Add("Refund", Pay);
+            Func<string, JObject> Refund = paymentfun.Refund;
+            this.listMethods.Add("Refund", Refund);
         }
 
             

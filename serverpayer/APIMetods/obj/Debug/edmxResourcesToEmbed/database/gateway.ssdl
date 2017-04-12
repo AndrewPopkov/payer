@@ -44,7 +44,7 @@
       <PropertyRef Name="status_id" />
     </Key>
     <Property Name="status_id" Type="int" Nullable="false" />
-    <Property Name="mesasage" Type="nchar" MaxLength="10" />
+    <Property Name="mesasage" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <Association Name="FK_order_consumer">
     <End Role="card_t" Type="Хранилище bankGatewayModel.card_t" Multiplicity="1" />

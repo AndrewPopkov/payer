@@ -113,18 +113,18 @@ namespace APIMetods
         {
             int status;
             JObject result = null;
-            status_t statusobj;
+            status statusobj;
 
             if (PayValidationParams(order_id, card_number, expiry_month, expiry_year, cvv, amount_kop, cardholder_name))
             {
 
                 using (bankGatewayEntities db = new bankGatewayEntities())
                 {
-                    using (var transaction = db.Database.BeginTransaction())
-                    {
+                    //using (var transaction = db.Database.BeginTransaction())
+                    //{
                         try
                         {
-                            card_t consumerCard = db.card_t.Where(p => p.card_number == card_number &&
+                            card consumerCard = db.cards.Where(p => p.card_number == card_number &&
                                                                 p.expiry_month == this.expiry_month &&
                                                                 p.expiry_year == this.expiry_year &&
                                                                 p.cvv == this.cvv && cardholder_name != null ? p.cardholder_name == cardholder_name : true).FirstOrDefault();
@@ -148,7 +148,7 @@ namespace APIMetods
                                 status = (int)statusEnum.WrongData;
                             }
 
-                            order_t order = new order_t()
+                            order order = new order()
                             {
                                 consumer_id = consumerCard.card_id,
                                 vendor_id = vendorCard_id,
@@ -156,19 +156,19 @@ namespace APIMetods
                                 order_id = this.order_id,
                                 amount_kop = this.amount_kop
                             };
-                            db.order_t.Add(order);
+                            db.orders.Add(order);
                             db.SaveChanges();
-                            transaction.Commit();
-                            statusobj = db.status_t.Find(status);
+                            //transaction.Commit();
+                            statusobj = db.statuss.Find(status);
                             result = new JObject(statusobj);
                         }
 
                         catch (Exception ex)
                         {
-                            transaction.Rollback();
+                           // transaction.Rollback();
                             Log.Write(ex);
                         }
-                    }
+                   // }
                 }
             }
             else
@@ -182,17 +182,17 @@ namespace APIMetods
         public JObject GetStatus(string order_id)
         {
             JObject result = null;
-            status_t status;
+            status status;
             if (GetStatusValidationParams(order_id))
             {
                 using (bankGatewayEntities db = new bankGatewayEntities())
                 {
                     try
                     {
-                        order_t order = db.order_t.Find(this.order_id);
+                        order order = db.orders.Find(this.order_id);
                         if (order != null)
                         {
-                            status = db.status_t.Find(order.status_id);
+                            status = db.statuss.Find(order.status_id);
                             result = new JObject(status);
                         }
                     }
@@ -215,7 +215,7 @@ namespace APIMetods
         public JObject Refund(string order_id)
         {
             JObject result = null;
-            status_t status;
+            status status;
             if (RefundValidationParams(order_id))
             {
                 using (bankGatewayEntities db = new bankGatewayEntities())
@@ -225,23 +225,23 @@ namespace APIMetods
                         try
                         {
 
-                            order_t order = db.order_t.Find(this.order_id);
+                            order order = db.orders.Find(this.order_id);
                             if (order != null)
                             {
-                                card_t consumer_card = db.card_t.Find(order.consumer_id);
+                                card consumer_card = db.cards.Find(order.consumer_id);
                                 if (consumer_card != null)
                                 {
                                     consumer_card.cash += order.amount_kop;
                                     order.status_id = (int)statusEnum.BackTransaction;
                                     db.SaveChanges();
                                     transaction.Commit();
-                                    status = db.status_t.Find((int)statusEnum.Ok);
+                                    status = db.statuss.Find((int)statusEnum.Ok);
                                     result = new JObject(status);
                                 }
                             }
                             else
                             {
-                                status = db.status_t.Find((int)statusEnum.WrongData);
+                                status = db.statuss.Find((int)statusEnum.WrongData);
                                 result = new JObject(status);
                             }
                           

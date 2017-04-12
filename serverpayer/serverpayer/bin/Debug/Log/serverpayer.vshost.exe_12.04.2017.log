@@ -1,0 +1,7 @@
+[12.04.2017 02:51:01.254] [System.RuntimeMethodHandle.InvokeMethod()] Адресат вызова создал исключение.
+[12.04.2017 02:59:25.974] [System.RuntimeMethodHandle.InvokeMethod()] Адресат вызова создал исключение.
+[12.04.2017 02:59:25.990] [System.RuntimeMethodHandle.InvokeMethod()] Адресат вызова создал исключение.
+[12.04.2017 12:16:14.732] [System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()] Не удалось найти строку подключения с именем "bankGatewayEntities" в файле конфигурации приложения.
+[12.04.2017 12:16:14.748] [serverpayer.APIFacade.getResult()] Ссылка на объект не указывает на экземпляр объекта.
+[12.04.2017 12:16:18.494] [System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()] Не удалось найти строку подключения с именем "bankGatewayEntities" в файле конфигурации приложения.
+[12.04.2017 12:16:18.500] [serverpayer.APIFacade.getResult()] Ссылка на объект не указывает на экземпляр объекта.

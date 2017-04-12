@@ -10,9 +10,9 @@ using System.Windows;
 
 namespace payerClient.vievmodel
 {
-    class MainViewModel: NotifyPropertyChanged
+    class PayViewModel: NotifyPropertyChanged
     {
-        public MainViewModel()
+        public PayViewModel()
         {
             setupCommands();
         }

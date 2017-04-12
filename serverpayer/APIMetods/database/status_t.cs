@@ -14,14 +14,7 @@ namespace APIMetods.database
     
     public partial class status_t
     {
-        public status_t()
-        {
-            this.order_t = new HashSet<order_t>();
-        }
-    
         public int status_id { get; set; }
         public string mesasage { get; set; }
-    
-        public virtual ICollection<order_t> order_t { get; set; }
     }
 }

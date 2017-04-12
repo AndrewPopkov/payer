@@ -64,7 +64,9 @@
     <Compile Include="System\AsyncCommandBase.cs" />
     <Compile Include="System\NotifyPropertyChanged.cs" />
     <Compile Include="System\SimpleCommand.cs" />
-    <Compile Include="viewmodel\MainViewModel.cs" />
+    <Compile Include="viewmodel\GetStatusViewModel.cs" />
+    <Compile Include="viewmodel\PayViewModel.cs" />
+    <Compile Include="viewmodel\RefundViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

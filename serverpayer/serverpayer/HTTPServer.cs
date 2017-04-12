@@ -20,6 +20,8 @@ namespace serverpayer
 
         private Dictionary<string, string> extensions = new Dictionary<string, string>()
         { 
+            
+            { "json", "text/json" },
             { "htm", "text/html" },
             { "html", "text/html" },
             { "xml", "text/xml" },
@@ -129,7 +131,8 @@ namespace serverpayer
             if(Regex.Match(requestedUrl,@"^(/api)").Success)
             {
                 requestedUrl=requestedUrl.Replace("/api/", string.Empty);
-                APIFacade.getResult(requestedUrl);
+                ;
+                sendOkResponse(clientSocket, charEncoder.GetBytes(APIFacade.getResult(requestedUrl)), "text/json");
             }
             else
             {

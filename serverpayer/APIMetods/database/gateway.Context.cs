@@ -26,7 +26,10 @@ namespace APIMetods.database
         }
     
         public DbSet<card_t> card_t { get; set; }
+        public DbSet<card> cards { get; set; }
         public DbSet<order_t> order_t { get; set; }
+        public DbSet<order> orders { get; set; }
         public DbSet<status_t> status_t { get; set; }
+        public DbSet<statuss> statusses { get; set; }
     }
 }

@@ -32,3 +32,5 @@ C:\Users\Popkov\Documents\GitHub\payer\serverpayer\APIMetods\bin\Debug\Newtonsof
 C:\Users\Popkov\Documents\GitHub\payer\serverpayer\APIMetods\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Popkov\Documents\GitHub\payer\serverpayer\APIMetods\bin\Debug\ru\EntityFramework.resources.dll
 C:\Users\Popkov\Documents\GitHub\payer\serverpayer\APIMetods\bin\Debug\ru\EntityFramework.SqlServer.resources.dll
+C:\Users\Андрей\Desktop\payer\serverpayer\APIMetods\bin\Debug\bankGateway.mdf
+C:\Users\Андрей\Desktop\payer\serverpayer\APIMetods\bin\Debug\bankGateway_log.ldf

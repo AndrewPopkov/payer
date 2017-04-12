@@ -4,10 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7e3ba9e21ac24e6eac6d1502b5eae185" Name="Диаграмма1">
-        <EntityTypeShape EntityType="bankGatewayModel.card_t" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="bankGatewayModel.order_t" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="bankGatewayModel.status_t" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+      <Diagram DiagramId="57b33227c52845a6a278a7aeba00e3a8" Name="Диаграмма1">
+        <EntityTypeShape EntityType="bankGatewayModel.card_t" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bankGatewayModel.card" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="bankGatewayModel.order_t" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bankGatewayModel.order" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="bankGatewayModel.status_t" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="bankGatewayModel.statuss" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
         <AssociationConnector Association="bankGatewayModel.FK_order_consumer" ManuallyRouted="false" />
         <AssociationConnector Association="bankGatewayModel.FK_order_vendor" ManuallyRouted="false" />
         <AssociationConnector Association="bankGatewayModel.FK_order_status" ManuallyRouted="false" />

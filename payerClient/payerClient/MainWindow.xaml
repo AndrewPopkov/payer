@@ -2,45 +2,111 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
-    <Grid x:Name="grd1">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto" MinWidth="100"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <Label x:Name="order_idlbl" Content="order_id"  Grid.Row="0" Grid.Column="0" />
-        <TextBox x:Name="order_idTxt"  Grid.Row="0" Grid.Column="1" Text="{Binding order_id,Mode=TwoWay}"/>
-        <Label x:Name="card_numberlbl" Content="card_number"  Grid.Row="2" Grid.Column="0" />
-        <TextBox x:Name="card_numberTxt"  Grid.Row="2" Grid.Column="1" Text="{Binding card_number,Mode=TwoWay}"/>
-        <Label x:Name="expiry_monthlbl" Content="expiry_month"  Grid.Row="4" Grid.Column="0" />
-        <TextBox x:Name="expiry_monthTxt"  Grid.Row="4" Grid.Column="1" Text="{Binding expiry_month,Mode=TwoWay}"/>
-        <Label x:Name="expiry_yearlbl" Content="expiry_year"  Grid.Row="6" Grid.Column="0" />
-        <TextBox x:Name="expiry_yearTxt"  Grid.Row="6" Grid.Column="1" Text="{Binding expiry_year,Mode=TwoWay}"/>
-        <Label x:Name="cvvlbl" Content="cvv"  Grid.Row="8" Grid.Column="0" />
-        <TextBox x:Name="cvvTxt"  Grid.Row="8" Grid.Column="1" Text="{Binding cvv,Mode=TwoWay}"/>
-        <Label x:Name="cardholderlbl" Content="cardholder"  Grid.Row="10" Grid.Column="0" />
-        <TextBox x:Name="cardholderTxt"  Grid.Row="10" Grid.Column="1" Text="{Binding cardholder,Mode=TwoWay}"/>
-        <Label x:Name="amount_koplbl" Content="amount_kop"  Grid.Row="12" Grid.Column="0" />
-        <TextBox x:Name="amount_kopTxt"  Grid.Row="12" Grid.Column="1" Text="{Binding amount_kop,Mode=TwoWay}"/>
+    <TabControl x:Name="products">
+        <TabItem x:Name="payTab">
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="3" Text="Pay"/>
+                </StackPanel>
+            </TabItem.Header>
+            <TabItem.Content>
+                <Grid x:Name="grdPay">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" MinWidth="100"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="order_idPaylbl" Content="order_id"  Grid.Row="0" Grid.Column="0" />
+                    <TextBox x:Name="order_idPayTxt"  Grid.Row="0" Grid.Column="1" Text="{Binding order_id,Mode=TwoWay}"/>
+                    <Label x:Name="card_numberPaylbl" Content="card_number"  Grid.Row="2" Grid.Column="0" />
+                    <TextBox x:Name="card_numberPayTxt"  Grid.Row="2" Grid.Column="1" Text="{Binding card_number,Mode=TwoWay}"/>
+                    <Label x:Name="expiry_monthPaylbl" Content="expiry_month"  Grid.Row="4" Grid.Column="0" />
+                    <TextBox x:Name="expiry_monthPayTxt"  Grid.Row="4" Grid.Column="1" Text="{Binding expiry_month,Mode=TwoWay}"/>
+                    <Label x:Name="expiry_yearPaylbl" Content="expiry_year"  Grid.Row="6" Grid.Column="0" />
+                    <TextBox x:Name="expiry_yearPayTxt"  Grid.Row="6" Grid.Column="1" Text="{Binding expiry_year,Mode=TwoWay}"/>
+                    <Label x:Name="cvvPaylbl" Content="cvv"  Grid.Row="8" Grid.Column="0" />
+                    <TextBox x:Name="cvvPayTxt"  Grid.Row="8" Grid.Column="1" Text="{Binding cvv,Mode=TwoWay}"/>
+                    <Label x:Name="cardholderPaylbl" Content="cardholder"  Grid.Row="10" Grid.Column="0" />
+                    <TextBox x:Name="cardholderPayTxt"  Grid.Row="10" Grid.Column="1" Text="{Binding cardholder,Mode=TwoWay}"/>
+                    <Label x:Name="amount_kopPaylbl" Content="amount_kop"  Grid.Row="12" Grid.Column="0" />
+                    <TextBox x:Name="amount_kopPayTxt"  Grid.Row="12" Grid.Column="1" Text="{Binding amount_kop,Mode=TwoWay}"/>
 
-        <Button x:Name="executeBtn"  Grid.Row="14" Grid.Column="2" Content="Pay" Command="{Binding PayCommand}"/>
+                    <Button x:Name="executePayBtn"  Grid.Row="14" Grid.Column="1" Content="Pay" Command="{Binding PayCommand}"/>
 
-    </Grid>
+                </Grid>
+            </TabItem.Content>
+        </TabItem>
+        <TabItem x:Name="GetStatusTab">
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="3" Text="GetStatus"/>
+                </StackPanel>
+            </TabItem.Header>
+            <TabItem.Content>
+                <Grid x:Name="grdGetStatus">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+        
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" MinWidth="100"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="order_idGetStatuslbl" Content="order_id"  Grid.Row="0" Grid.Column="0" />
+                    <TextBox x:Name="order_idGetStatusTxt"  Grid.Row="0" Grid.Column="1" Text="{Binding order_id,Mode=TwoWay}"/>
+
+                    <Button x:Name="executeGetStatusBtn"  Grid.Row="14" Grid.Column="1" Content="GetStatus" Command="{Binding GetStatusCommand}"/>
+
+                </Grid>
+            </TabItem.Content>
+        </TabItem>
+        <TabItem x:Name="RefundTab">
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="3" Text="Refund"/>
+                </StackPanel>
+            </TabItem.Header>
+            <TabItem.Content>
+                <Grid x:Name="grdRefund">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="Auto"/>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" MinWidth="100"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="order_idRefundlbl" Content="order_id"  Grid.Row="0" Grid.Column="0" />
+                    <TextBox x:Name="order_idRefundTxt"  Grid.Row="0" Grid.Column="1" Text="{Binding order_id,Mode=TwoWay}"/>
+
+                    <Button x:Name="executeRefundBtn"  Grid.Row="14" Grid.Column="1" Content="Refund" Command="{Binding RefundCommand}"/>
+
+                </Grid>
+            </TabItem.Content>
+        </TabItem>
+    </TabControl>
+
 </Window>

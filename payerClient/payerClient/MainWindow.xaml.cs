@@ -1,4 +1,5 @@
 ﻿using payerClient.vievmodel;
+using payerClient.viewmodel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +22,18 @@ namespace payerClient
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MainViewModel viewModel;
+        private PayViewModel viewModelPay;
+        private GetStatusViewModel viewModelGetStatus;
+        private RefundViewModel viewModelRefund;
         public MainWindow()
         {
             InitializeComponent();
-            viewModel = new MainViewModel();
-            this.grd1.DataContext = viewModel;
+            viewModelPay = new PayViewModel();
+            viewModelGetStatus = new GetStatusViewModel();
+            viewModelRefund = new RefundViewModel();
+            this.grdPay.DataContext = viewModelPay;
+            this.grdGetStatus.DataContext = viewModelPay;
+            this.grdRefund.DataContext = viewModelRefund;
         }
     }
 }

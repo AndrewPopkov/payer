@@ -14,12 +14,6 @@ namespace APIMetods.database
     
     public partial class card_t
     {
-        public card_t()
-        {
-            this.order_t = new HashSet<order_t>();
-            this.order_t1 = new HashSet<order_t>();
-        }
-    
         public int card_id { get; set; }
         public string card_number { get; set; }
         public int expiry_month { get; set; }
@@ -27,8 +21,5 @@ namespace APIMetods.database
         public int cvv { get; set; }
         public string cardholder_name { get; set; }
         public Nullable<decimal> cash { get; set; }
-    
-        public virtual ICollection<order_t> order_t { get; set; }
-        public virtual ICollection<order_t> order_t1 { get; set; }
     }
 }

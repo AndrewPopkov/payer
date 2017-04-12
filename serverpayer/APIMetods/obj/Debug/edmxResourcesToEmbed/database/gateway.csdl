@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="bankGatewayModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
   <EntityContainer Name="bankGatewayEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="card_t" EntityType="bankGatewayModel.card_t" />
-    <EntitySet Name="order_t" EntityType="bankGatewayModel.order_t" />
-    <EntitySet Name="status_t" EntityType="bankGatewayModel.status_t" />
+    <EntitySet Name="cards" EntityType="bankGatewayModel.card" />
+    <EntitySet Name="orders" EntityType="bankGatewayModel.order" />
+    <EntitySet Name="statuss" EntityType="bankGatewayModel.status" />
     <AssociationSet Name="FK_order_consumer" Association="bankGatewayModel.FK_order_consumer">
-      <End Role="card_t" EntitySet="card_t" />
-      <End Role="order_t" EntitySet="order_t" />
+      <End Role="card_t" EntitySet="cards" />
+      <End Role="order_t" EntitySet="orders" />
     </AssociationSet>
     <AssociationSet Name="FK_order_vendor" Association="bankGatewayModel.FK_order_vendor">
-      <End Role="card_t" EntitySet="card_t" />
-      <End Role="order_t" EntitySet="order_t" />
+      <End Role="card_t" EntitySet="cards" />
+      <End Role="order_t" EntitySet="orders" />
     </AssociationSet>
     <AssociationSet Name="FK_order_status" Association="bankGatewayModel.FK_order_status">
-      <End Role="status_t" EntitySet="status_t" />
-      <End Role="order_t" EntitySet="order_t" />
+      <End Role="status_t" EntitySet="statuss" />
+      <End Role="order_t" EntitySet="orders" />
     </AssociationSet>
   </EntityContainer>
-  <EntityType Name="card_t">
+  <EntityType Name="card">
     <Key>
       <PropertyRef Name="card_id" />
     </Key>
@@ -31,7 +31,7 @@
     <NavigationProperty Name="order_t" Relationship="bankGatewayModel.FK_order_consumer" FromRole="card_t" ToRole="order_t" />
     <NavigationProperty Name="order_t1" Relationship="bankGatewayModel.FK_order_vendor" FromRole="card_t" ToRole="order_t" />
   </EntityType>
-  <EntityType Name="order_t">
+  <EntityType Name="order">
     <Key>
       <PropertyRef Name="order_id" />
     </Key>
@@ -44,17 +44,17 @@
     <NavigationProperty Name="card_t1" Relationship="bankGatewayModel.FK_order_vendor" FromRole="order_t" ToRole="card_t" />
     <NavigationProperty Name="status_t" Relationship="bankGatewayModel.FK_order_status" FromRole="order_t" ToRole="status_t" />
   </EntityType>
-  <EntityType Name="status_t">
+  <EntityType Name="status">
     <Key>
       <PropertyRef Name="status_id" />
     </Key>
     <Property Name="status_id" Type="Int32" Nullable="false" />
-    <Property Name="mesasage" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
+    <Property Name="mesasage" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
     <NavigationProperty Name="order_t" Relationship="bankGatewayModel.FK_order_status" FromRole="status_t" ToRole="order_t" />
   </EntityType>
   <Association Name="FK_order_consumer">
-    <End Role="card_t" Type="bankGatewayModel.card_t" Multiplicity="1" />
-    <End Role="order_t" Type="bankGatewayModel.order_t" Multiplicity="*" />
+    <End Role="card_t" Type="bankGatewayModel.card" Multiplicity="1" />
+    <End Role="order_t" Type="bankGatewayModel.order" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="card_t">
         <PropertyRef Name="card_id" />
@@ -65,8 +65,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_order_vendor">
-    <End Role="card_t" Type="bankGatewayModel.card_t" Multiplicity="1" />
-    <End Role="order_t" Type="bankGatewayModel.order_t" Multiplicity="*" />
+    <End Role="card_t" Type="bankGatewayModel.card" Multiplicity="1" />
+    <End Role="order_t" Type="bankGatewayModel.order" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="card_t">
         <PropertyRef Name="card_id" />
@@ -77,8 +77,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_order_status">
-    <End Role="status_t" Type="bankGatewayModel.status_t" Multiplicity="1" />
-    <End Role="order_t" Type="bankGatewayModel.order_t" Multiplicity="*" />
+    <End Role="status_t" Type="bankGatewayModel.status" Multiplicity="1" />
+    <End Role="order_t" Type="bankGatewayModel.order" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="status_t">
         <PropertyRef Name="status_id" />

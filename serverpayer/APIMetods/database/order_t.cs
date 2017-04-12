@@ -19,9 +19,5 @@ namespace APIMetods.database
         public int vendor_id { get; set; }
         public decimal amount_kop { get; set; }
         public int status_id { get; set; }
-    
-        public virtual card_t card_t { get; set; }
-        public virtual card_t card_t1 { get; set; }
-        public virtual status_t status_t { get; set; }
     }
 }

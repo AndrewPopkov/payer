@@ -61,6 +61,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -71,7 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="database\card_t.cs">
+    <Compile Include="database\card.cs">
       <DependentUpon>gateway.tt</DependentUpon>
     </Compile>
     <Compile Include="database\gateway.Context.cs">
@@ -89,10 +90,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>gateway.edmx</DependentUpon>
     </Compile>
-    <Compile Include="database\order_t.cs">
+    <Compile Include="database\order.cs">
       <DependentUpon>gateway.tt</DependentUpon>
     </Compile>
-    <Compile Include="database\status_t.cs">
+    <Compile Include="database\status.cs">
       <DependentUpon>gateway.tt</DependentUpon>
     </Compile>
     <Compile Include="log\Log.cs" />
@@ -163,6 +164,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="bankGateway.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="bankGateway_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>bankGateway.mdf</DependentUpon>
+    </Content>
     <Content Include="database\bankGateway.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

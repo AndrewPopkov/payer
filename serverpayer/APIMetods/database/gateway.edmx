@@ -7,22 +7,37 @@
       <Schema Namespace="Хранилище bankGatewayModel" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="Хранилище bankGatewayModelContainer">
           <EntitySet Name="card_t" EntityType="Хранилище bankGatewayModel.card_t" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="cards" EntityType="Хранилище bankGatewayModel.cards" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="order_t" EntityType="Хранилище bankGatewayModel.order_t" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="orders" EntityType="Хранилище bankGatewayModel.orders" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="status_t" EntityType="Хранилище bankGatewayModel.status_t" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="statuss" EntityType="Хранилище bankGatewayModel.statuss" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_order_consumer" Association="Хранилище bankGatewayModel.FK_order_consumer">
-            <End Role="card_t" EntitySet="card_t" />
-            <End Role="order_t" EntitySet="order_t" />
+            <End Role="cards" EntitySet="cards" />
+            <End Role="orders" EntitySet="orders" />
           </AssociationSet>
           <AssociationSet Name="FK_order_status" Association="Хранилище bankGatewayModel.FK_order_status">
-            <End Role="status_t" EntitySet="status_t" />
-            <End Role="order_t" EntitySet="order_t" />
+            <End Role="statuss" EntitySet="statuss" />
+            <End Role="orders" EntitySet="orders" />
           </AssociationSet>
           <AssociationSet Name="FK_order_vendor" Association="Хранилище bankGatewayModel.FK_order_vendor">
-            <End Role="card_t" EntitySet="card_t" />
-            <End Role="order_t" EntitySet="order_t" />
+            <End Role="cards" EntitySet="cards" />
+            <End Role="orders" EntitySet="orders" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="card_t">
+          <Key>
+            <PropertyRef Name="card_id" />
+          </Key>
+          <Property Name="card_id" Type="int" Nullable="false" />
+          <Property Name="card_number" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="expiry_month" Type="int" Nullable="false" />
+          <Property Name="expiry_year" Type="int" Nullable="false" />
+          <Property Name="cvv" Type="int" Nullable="false" />
+          <Property Name="cardholder_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="cash" Type="money" />
+        </EntityType>
+        <EntityType Name="cards">
           <Key>
             <PropertyRef Name="card_id" />
           </Key>
@@ -44,45 +59,62 @@
           <Property Name="amount_kop" Type="money" Nullable="false" />
           <Property Name="status_id" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="int" Nullable="false" />
+          <Property Name="consumer_id" Type="int" Nullable="false" />
+          <Property Name="vendor_id" Type="int" Nullable="false" />
+          <Property Name="amount_kop" Type="money" Nullable="false" />
+          <Property Name="status_id" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="status_t">
           <Key>
             <PropertyRef Name="status_id" />
           </Key>
           <Property Name="status_id" Type="int" Nullable="false" />
-          <Property Name="mesasage" Type="nchar" MaxLength="10" />
+          <Property Name="mesasage" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="statuss">
+          <Key>
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Name="status_id" Type="int" Nullable="false" />
+          <Property Name="mesasage" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_order_consumer">
-          <End Role="card_t" Type="Хранилище bankGatewayModel.card_t" Multiplicity="1" />
-          <End Role="order_t" Type="Хранилище bankGatewayModel.order_t" Multiplicity="*" />
+          <End Role="cards" Type="Хранилище bankGatewayModel.cards" Multiplicity="1" />
+          <End Role="orders" Type="Хранилище bankGatewayModel.orders" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="card_t">
+            <Principal Role="cards">
               <PropertyRef Name="card_id" />
             </Principal>
-            <Dependent Role="order_t">
+            <Dependent Role="orders">
               <PropertyRef Name="consumer_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_order_status">
-          <End Role="status_t" Type="Хранилище bankGatewayModel.status_t" Multiplicity="1" />
-          <End Role="order_t" Type="Хранилище bankGatewayModel.order_t" Multiplicity="*" />
+          <End Role="statuss" Type="Хранилище bankGatewayModel.statuss" Multiplicity="1" />
+          <End Role="orders" Type="Хранилище bankGatewayModel.orders" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="status_t">
+            <Principal Role="statuss">
               <PropertyRef Name="status_id" />
             </Principal>
-            <Dependent Role="order_t">
+            <Dependent Role="orders">
               <PropertyRef Name="status_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_order_vendor">
-          <End Role="card_t" Type="Хранилище bankGatewayModel.card_t" Multiplicity="1" />
-          <End Role="order_t" Type="Хранилище bankGatewayModel.order_t" Multiplicity="*" />
+          <End Role="cards" Type="Хранилище bankGatewayModel.cards" Multiplicity="1" />
+          <End Role="orders" Type="Хранилище bankGatewayModel.orders" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="card_t">
+            <Principal Role="cards">
               <PropertyRef Name="card_id" />
             </Principal>
-            <Dependent Role="order_t">
+            <Dependent Role="orders">
               <PropertyRef Name="vendor_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -94,19 +126,22 @@
       <Schema Namespace="bankGatewayModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="bankGatewayEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="card_t" EntityType="bankGatewayModel.card_t" />
+          <EntitySet Name="cards" EntityType="bankGatewayModel.card" />
           <EntitySet Name="order_t" EntityType="bankGatewayModel.order_t" />
+          <EntitySet Name="orders" EntityType="bankGatewayModel.order" />
           <EntitySet Name="status_t" EntityType="bankGatewayModel.status_t" />
+          <EntitySet Name="statusses" EntityType="bankGatewayModel.statuss" />
           <AssociationSet Name="FK_order_consumer" Association="bankGatewayModel.FK_order_consumer">
-            <End Role="card_t" EntitySet="card_t" />
-            <End Role="order_t" EntitySet="order_t" />
+            <End Role="cards" EntitySet="cards" />
+            <End Role="orders" EntitySet="orders" />
           </AssociationSet>
           <AssociationSet Name="FK_order_vendor" Association="bankGatewayModel.FK_order_vendor">
-            <End Role="card_t" EntitySet="card_t" />
-            <End Role="order_t" EntitySet="order_t" />
+            <End Role="cards" EntitySet="cards" />
+            <End Role="orders" EntitySet="orders" />
           </AssociationSet>
           <AssociationSet Name="FK_order_status" Association="bankGatewayModel.FK_order_status">
-            <End Role="status_t" EntitySet="status_t" />
-            <End Role="order_t" EntitySet="order_t" />
+            <End Role="statuss" EntitySet="statusses" />
+            <End Role="orders" EntitySet="orders" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="card_t">
@@ -120,8 +155,20 @@
           <Property Name="cvv" Type="Int32" Nullable="false" />
           <Property Name="cardholder_name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="cash" Type="Decimal" Precision="19" Scale="4" />
-          <NavigationProperty Name="order_t" Relationship="bankGatewayModel.FK_order_consumer" FromRole="card_t" ToRole="order_t" />
-          <NavigationProperty Name="order_t1" Relationship="bankGatewayModel.FK_order_vendor" FromRole="card_t" ToRole="order_t" />
+        </EntityType>
+        <EntityType Name="card">
+          <Key>
+            <PropertyRef Name="card_id" />
+          </Key>
+          <Property Name="card_id" Type="Int32" Nullable="false" />
+          <Property Name="card_number" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="expiry_month" Type="Int32" Nullable="false" />
+          <Property Name="expiry_year" Type="Int32" Nullable="false" />
+          <Property Name="cvv" Type="Int32" Nullable="false" />
+          <Property Name="cardholder_name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="cash" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="orders" Relationship="bankGatewayModel.FK_order_consumer" FromRole="cards" ToRole="orders" />
+          <NavigationProperty Name="orders1" Relationship="bankGatewayModel.FK_order_vendor" FromRole="cards" ToRole="orders" />
         </EntityType>
         <EntityType Name="order_t">
           <Key>
@@ -132,50 +179,67 @@
           <Property Name="vendor_id" Type="Int32" Nullable="false" />
           <Property Name="amount_kop" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="status_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="card_t" Relationship="bankGatewayModel.FK_order_consumer" FromRole="order_t" ToRole="card_t" />
-          <NavigationProperty Name="card_t1" Relationship="bankGatewayModel.FK_order_vendor" FromRole="order_t" ToRole="card_t" />
-          <NavigationProperty Name="status_t" Relationship="bankGatewayModel.FK_order_status" FromRole="order_t" ToRole="status_t" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="Int32" Nullable="false" />
+          <Property Name="consumer_id" Type="Int32" Nullable="false" />
+          <Property Name="vendor_id" Type="Int32" Nullable="false" />
+          <Property Name="amount_kop" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="status_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="card" Relationship="bankGatewayModel.FK_order_consumer" FromRole="orders" ToRole="cards" />
+          <NavigationProperty Name="card1" Relationship="bankGatewayModel.FK_order_vendor" FromRole="orders" ToRole="cards" />
+          <NavigationProperty Name="statuss" Relationship="bankGatewayModel.FK_order_status" FromRole="orders" ToRole="statuss" />
         </EntityType>
         <EntityType Name="status_t">
           <Key>
             <PropertyRef Name="status_id" />
           </Key>
           <Property Name="status_id" Type="Int32" Nullable="false" />
-          <Property Name="mesasage" Type="String" MaxLength="10" Unicode="true" FixedLength="true" />
-          <NavigationProperty Name="order_t" Relationship="bankGatewayModel.FK_order_status" FromRole="status_t" ToRole="order_t" />
+          <Property Name="mesasage" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="statuss">
+          <Key>
+            <PropertyRef Name="status_id" />
+          </Key>
+          <Property Name="status_id" Type="Int32" Nullable="false" />
+          <Property Name="mesasage" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="orders" Relationship="bankGatewayModel.FK_order_status" FromRole="statuss" ToRole="orders" />
         </EntityType>
         <Association Name="FK_order_consumer">
-          <End Role="card_t" Type="bankGatewayModel.card_t" Multiplicity="1" />
-          <End Role="order_t" Type="bankGatewayModel.order_t" Multiplicity="*" />
+          <End Role="cards" Type="bankGatewayModel.card" Multiplicity="1" />
+          <End Role="orders" Type="bankGatewayModel.order" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="card_t">
+            <Principal Role="cards">
               <PropertyRef Name="card_id" />
             </Principal>
-            <Dependent Role="order_t">
+            <Dependent Role="orders">
               <PropertyRef Name="consumer_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_order_vendor">
-          <End Role="card_t" Type="bankGatewayModel.card_t" Multiplicity="1" />
-          <End Role="order_t" Type="bankGatewayModel.order_t" Multiplicity="*" />
+          <End Role="cards" Type="bankGatewayModel.card" Multiplicity="1" />
+          <End Role="orders" Type="bankGatewayModel.order" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="card_t">
+            <Principal Role="cards">
               <PropertyRef Name="card_id" />
             </Principal>
-            <Dependent Role="order_t">
+            <Dependent Role="orders">
               <PropertyRef Name="vendor_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_order_status">
-          <End Role="status_t" Type="bankGatewayModel.status_t" Multiplicity="1" />
-          <End Role="order_t" Type="bankGatewayModel.order_t" Multiplicity="*" />
+          <End Role="statuss" Type="bankGatewayModel.statuss" Multiplicity="1" />
+          <End Role="orders" Type="bankGatewayModel.order" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="status_t">
+            <Principal Role="statuss">
               <PropertyRef Name="status_id" />
             </Principal>
-            <Dependent Role="order_t">
+            <Dependent Role="orders">
               <PropertyRef Name="status_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -199,6 +263,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="cards">
+            <EntityTypeMapping TypeName="bankGatewayModel.card">
+              <MappingFragment StoreEntitySet="cards">
+                <ScalarProperty Name="card_id" ColumnName="card_id" />
+                <ScalarProperty Name="card_number" ColumnName="card_number" />
+                <ScalarProperty Name="expiry_month" ColumnName="expiry_month" />
+                <ScalarProperty Name="expiry_year" ColumnName="expiry_year" />
+                <ScalarProperty Name="cvv" ColumnName="cvv" />
+                <ScalarProperty Name="cardholder_name" ColumnName="cardholder_name" />
+                <ScalarProperty Name="cash" ColumnName="cash" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="order_t">
             <EntityTypeMapping TypeName="bankGatewayModel.order_t">
               <MappingFragment StoreEntitySet="order_t">
@@ -210,9 +287,28 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="bankGatewayModel.order">
+              <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="consumer_id" ColumnName="consumer_id" />
+                <ScalarProperty Name="vendor_id" ColumnName="vendor_id" />
+                <ScalarProperty Name="amount_kop" ColumnName="amount_kop" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="status_t">
             <EntityTypeMapping TypeName="bankGatewayModel.status_t">
               <MappingFragment StoreEntitySet="status_t">
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+                <ScalarProperty Name="mesasage" ColumnName="mesasage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="statusses">
+            <EntityTypeMapping TypeName="bankGatewayModel.statuss">
+              <MappingFragment StoreEntitySet="statuss">
                 <ScalarProperty Name="status_id" ColumnName="status_id" />
                 <ScalarProperty Name="mesasage" ColumnName="mesasage" />
               </MappingFragment>
@@ -234,7 +330,6 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
-        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
