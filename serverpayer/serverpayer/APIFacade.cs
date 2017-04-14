@@ -12,33 +12,27 @@ namespace serverpayer
     {
         private string urlAPI;
         private string curentMethod;
-        private List<string> paramsMethod;
-        Dictionary<string, MulticastDelegate> listMethods;
+        private Dictionary<string,string> paramsMethod;
+        private Dictionary<string, IResponseGateway> listMethods;
         //добавляем нужные фукции апи
         private void  InitializationAPI()
         {
-            this.listMethods = new Dictionary<string, MulticastDelegate>();
+            this.listMethods =new  Dictionary<string, IResponseGateway>();
             InitializationPay();
             InitializationGetStatus();
             InitializationRefund();
         }
         private void InitializationGetStatus()
         {
-            PaymentFun paymentfun = new PaymentFun();
-            Func<string, JObject> GetStatus = paymentfun.GetStatus;
-            this.listMethods.Add("GetStatus", GetStatus);
+            this.listMethods.Add("GetStatus", new GetStatusGateway());
         }
         private void InitializationPay()
         {
-            PaymentFun paymentfun = new PaymentFun();
-            Func<string, string, string, string, string, string, string, JObject> Pay = paymentfun.Pay;
-            this.listMethods.Add("Pay", Pay);
+            this.listMethods.Add("Pay", new PayGateway());
         }
         private void InitializationRefund()
         {
-            PaymentFun paymentfun = new PaymentFun();
-            Func<string, JObject> Refund = paymentfun.Refund;
-            this.listMethods.Add("Refund", Refund);
+            this.listMethods.Add("Refund", new RefundGateway());
         }
 
             
@@ -54,17 +48,19 @@ namespace serverpayer
             this.urlAPI=urlAPI.Replace(buf, string.Empty);
             return buf;
         }
-        private List<string> getParams()
+        private Dictionary<string, string> getParams()
         {
             
             Regex re = new Regex(@"([?&]\w*=\w*)", RegexOptions.IgnoreCase);
             if (re.Matches(this.urlAPI).Count > 0)
             {
-                this.paramsMethod = new List<string>();
+                this.paramsMethod = new Dictionary<string,string>();
                 foreach (Match match in re.Matches(urlAPI))
                 {
-                    Regex reInside = new Regex(@"([=]\w*$)", RegexOptions.IgnoreCase);
-                    this.paramsMethod.Add(reInside.Match(match.Value).Value.Replace("=", string.Empty));
+                    Regex namePar = new Regex(@"(^\w*[=])", RegexOptions.IgnoreCase);
+                    Regex valPar = new Regex(@"([=]\w*$)", RegexOptions.IgnoreCase);
+                    this.paramsMethod.Add(namePar.Match(match.Value).Value.Replace("=", string.Empty),
+                                          valPar.Match(match.Value).Value.Replace("=", string.Empty));
 
                 }
             }
@@ -73,17 +69,17 @@ namespace serverpayer
 
         APIFacade(string url)
         {
-            this.urlAPI = url.Replace(" ", string.Empty);
-            InitializationAPI();
+            this.urlAPI = url.Replace(" ", string.Empty);         
             this.curentMethod = getMethod();
             this.paramsMethod=getParams();
+            InitializationAPI();
         }
 
         public static string  getResult(string url)
         {
             APIFacade curentFacade = new APIFacade(url);
-            var obj = curentFacade.listMethods[curentFacade.curentMethod].DynamicInvoke(curentFacade.paramsMethod.ToArray<string>());
-            return (obj as JObject).ToString();
+            JObject obj = curentFacade.listMethods[curentFacade.curentMethod].ResponseGateway(curentFacade.paramsMethod);
+            return obj.ToString();
 
         }
     }

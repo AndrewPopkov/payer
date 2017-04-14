@@ -72,59 +72,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="database\card.cs">
-      <DependentUpon>gateway.tt</DependentUpon>
-    </Compile>
-    <Compile Include="database\gateway.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>gateway.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="database\gateway.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>gateway.tt</DependentUpon>
-    </Compile>
-    <Compile Include="database\gateway.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>gateway.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="database\order.cs">
-      <DependentUpon>gateway.tt</DependentUpon>
-    </Compile>
-    <Compile Include="database\status.cs">
-      <DependentUpon>gateway.tt</DependentUpon>
-    </Compile>
+    <Compile Include="database\GatewayContext.cs" />
+    <Compile Include="database\model\card.cs" />
+    <Compile Include="database\model\card_order.cs" />
+    <Compile Include="database\model\order.cs" />
+    <Compile Include="database\model\status.cs" />
+    <Compile Include="GetStatusGateway.cs" />
+    <Compile Include="IResponseGateway.cs" />
     <Compile Include="log\Log.cs" />
-    <Compile Include="PaymentFun.cs" />
+    <Compile Include="PayGateway.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="RefundGateway.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
-    </None>
-    <EntityDeploy Include="database\gateway.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>gateway.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="database\gateway.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>gateway.edmx</DependentUpon>
-      <LastGenOutput>gateway.Context.cs</LastGenOutput>
-    </None>
-    <None Include="database\gateway.edmx.diagram">
-      <DependentUpon>gateway.edmx</DependentUpon>
-    </None>
-    <None Include="database\gateway.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>gateway.edmx</DependentUpon>
-      <LastGenOutput>gateway.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
