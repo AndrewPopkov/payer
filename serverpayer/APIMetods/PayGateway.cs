@@ -21,7 +21,7 @@ namespace APIMetods
         }
         //ид банка
         private statusEnum result;
-        private readonly int vendorCard_id = 1;
+        private readonly int vendorCard_id = 2;
         private int order_id;
         private string card_number;
         private int expiry_month;
@@ -63,7 +63,7 @@ namespace APIMetods
             {
                 ValidationData = false;
             }
-            if (Regex.Match(str_expiry_month, @"(\d\d)").Success && ValidationData)
+            if (Regex.Match(str_expiry_month, @"(\d|[\d\d])").Success && ValidationData)
             {
                 if (ValidationData = int.TryParse(str_expiry_month, out this.expiry_month) && ValidationData)
                 {
@@ -76,7 +76,7 @@ namespace APIMetods
             {
                 ValidationData = false;
             }
-            if (Regex.Match(str_expiry_month, @"(\d|[\d\d])").Success && ValidationData)
+            if (Regex.Match(str_expiry_year, @"([\d\d\d\d])").Success && ValidationData)
             {
                 if (ValidationData = int.TryParse(str_expiry_year, out this.expiry_year) && ValidationData)
                 {
@@ -98,7 +98,7 @@ namespace APIMetods
             {
                 ValidationData = false;
             }
-            if (Regex.Match(str_amount_kop, @"(\d+)").Success)
+            if (Regex.Match(str_amount_kop, @"(\d+)").Success && ValidationData)
             {
                 ValidationData = decimal.TryParse(str_amount_kop, out this.amount_kop);
             }
@@ -185,8 +185,7 @@ namespace APIMetods
 
         public JObject ResponseGateway(Dictionary<string, string> param)
         {
-            if(PayValidationParams(param["order_id"],param["card_number"],param["expiry_month"],param["expiry_year"],param["cvv"],
-                                   param["amount_kop"],param["cardholder_name"]))
+            if(PayValidationParams(param["order_id"],param["card_number"],param["expiry_month"],param["expiry_year"],param["cvv"], param["amount_kop"],param["cardholder_name"]))
             {
                 Pay();
             }
@@ -196,5 +195,9 @@ namespace APIMetods
             }
             return GetResponseStatus((statusEnum)result);
         }
-    }
+
+        public JObject TestPay()
+        {
+
+        }
 }

@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
+    <TextBox ></TextBox>
     <TabControl x:Name="products">
         <TabItem x:Name="payTab">
             <TabItem.Header>
@@ -44,7 +45,7 @@
                     <Label x:Name="cvvPaylbl" Content="cvv"  Grid.Row="8" Grid.Column="0" />
                     <TextBox x:Name="cvvPayTxt"  Grid.Row="8" Grid.Column="1" Text="{Binding cvv,Mode=TwoWay}"/>
                     <Label x:Name="cardholderPaylbl" Content="cardholder"  Grid.Row="10" Grid.Column="0" />
-                    <TextBox x:Name="cardholderPayTxt"  Grid.Row="10" Grid.Column="1" Text="{Binding cardholder,Mode=TwoWay}"/>
+                    <TextBox x:Name="cardholderPayTxt"  Grid.Row="10" Grid.Column="1" Text="{Binding cardholder_name,Mode=TwoWay}"/>
                     <Label x:Name="amount_kopPaylbl" Content="amount_kop"  Grid.Row="12" Grid.Column="0" />
                     <TextBox x:Name="amount_kopPayTxt"  Grid.Row="12" Grid.Column="1" Text="{Binding amount_kop,Mode=TwoWay}"/>
 

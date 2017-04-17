@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace APIMetods.database.model
 {
@@ -8,7 +9,7 @@ namespace APIMetods.database.model
         {
             this.orders = new HashSet<order>();
         }
-
+        [Key]
         public int status_id { get; set; }
         public string mesasage { get; set; }
 

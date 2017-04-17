@@ -57,7 +57,7 @@ namespace serverpayer
                 this.paramsMethod = new Dictionary<string,string>();
                 foreach (Match match in re.Matches(urlAPI))
                 {
-                    Regex namePar = new Regex(@"(^\w*[=])", RegexOptions.IgnoreCase);
+                    Regex namePar = new Regex(@"(\w*[=])", RegexOptions.IgnoreCase);
                     Regex valPar = new Regex(@"([=]\w*$)", RegexOptions.IgnoreCase);
                     this.paramsMethod.Add(namePar.Match(match.Value).Value.Replace("=", string.Empty),
                                           valPar.Match(match.Value).Value.Replace("=", string.Empty));

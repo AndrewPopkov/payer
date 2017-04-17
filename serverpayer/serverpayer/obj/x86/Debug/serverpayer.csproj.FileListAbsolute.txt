@@ -28,8 +28,6 @@ C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\bin\Debug\Newtons
 C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\bin\Debug\EntityFramework.xml
 C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\bin\Debug\ru\EntityFramework.resources.dll
-C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\bankGateway.mdf
-C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\bankGateway_log.ldf
 C:\Users\Popkov\Desktop\payer\serverpayer\serverpayer\obj\x86\Debug\serverpayer.exe
 C:\Users\Popkov\Desktop\payer\serverpayer\serverpayer\obj\x86\Debug\serverpayer.pdb
 C:\Users\Popkov\Desktop\payer\serverpayer\serverpayer\bin\Debug\bankGateway.mdf
@@ -47,3 +45,10 @@ C:\Users\Popkov\Desktop\payer\serverpayer\serverpayer\bin\Debug\Newtonsoft.Json.
 C:\Users\Popkov\Desktop\payer\serverpayer\serverpayer\bin\Debug\EntityFramework.xml
 C:\Users\Popkov\Desktop\payer\serverpayer\serverpayer\bin\Debug\ru\EntityFramework.resources.dll
 C:\Users\Popkov\Desktop\payer\serverpayer\serverpayer\obj\x86\Debug\serverpayer.csprojResolveAssemblyReference.cache
+C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\serverpayer.exe.config
+C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\ru\EntityFramework.SqlServer.resources.dll
+C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\xunit.dll
+C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\xunit.xml
+C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\APIMetods.dll.config

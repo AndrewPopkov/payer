@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
 namespace APIMetods.database.model
 {
-    class card_order
+   public class card_order
     {
         public card_order()
         {
         }
-
+        [Key]
         public int card_order_id { get; set; }
         public int card_id { get; set; }
         public int order_id { get; set; }

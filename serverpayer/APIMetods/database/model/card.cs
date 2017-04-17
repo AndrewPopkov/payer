@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace APIMetods.database.model
 {
@@ -9,7 +10,7 @@ namespace APIMetods.database.model
         {
             this.card_orders = new HashSet<card_order>();
         }
-
+        [Key]
         public int card_id { get; set; }
         public string card_number { get; set; }
         public int expiry_month { get; set; }

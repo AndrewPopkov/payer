@@ -131,7 +131,6 @@ namespace serverpayer
             if(Regex.Match(requestedUrl,@"^(/api)").Success)
             {
                 requestedUrl=requestedUrl.Replace("/api/", string.Empty);
-                ;
                 sendOkResponse(clientSocket, charEncoder.GetBytes(APIFacade.getResult(requestedUrl)), "text/json");
             }
             else

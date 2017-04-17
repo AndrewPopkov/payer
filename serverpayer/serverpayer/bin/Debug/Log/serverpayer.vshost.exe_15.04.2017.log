@@ -1,0 +1,11 @@
+[15.04.2017 17:42:14.298] [System.ThrowHelper.ThrowArgumentException()] Элемент с тем же ключом уже был добавлен.
+[15.04.2017 17:42:14.298] [System.ThrowHelper.ThrowArgumentException()] Элемент с тем же ключом уже был добавлен.
+[15.04.2017 17:42:24.059] [System.ThrowHelper.ThrowArgumentException()] Элемент с тем же ключом уже был добавлен.
+[15.04.2017 17:42:24.081] [System.ThrowHelper.ThrowArgumentException()] Элемент с тем же ключом уже был добавлен.
+[15.04.2017 17:43:07.767] [System.ThrowHelper.ThrowArgumentException()] Элемент с тем же ключом уже был добавлен.
+[15.04.2017 19:23:34.989] [APIMetods.PayGateway.GetResponseStatus()] Ссылка на объект не указывает на экземпляр объекта.
+[15.04.2017 19:23:35.028] [APIMetods.PayGateway.GetResponseStatus()] Ссылка на объект не указывает на экземпляр объекта.
+[15.04.2017 19:23:48.785] [APIMetods.PayGateway.GetResponseStatus()] Ссылка на объект не указывает на экземпляр объекта.
+[15.04.2017 19:23:48.814] [APIMetods.PayGateway.GetResponseStatus()] Ссылка на объект не указывает на экземпляр объекта.
+[15.04.2017 19:24:08.643] [APIMetods.PayGateway.GetResponseStatus()] Ссылка на объект не указывает на экземпляр объекта.
+[15.04.2017 19:24:09.807] [APIMetods.PayGateway.GetResponseStatus()] Ссылка на объект не указывает на экземпляр объекта.

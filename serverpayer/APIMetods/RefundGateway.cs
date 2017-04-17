@@ -59,15 +59,23 @@ namespace APIMetods
                 {
                     try
                     {
-                        IEnumerable<order> orders = db.orders.Where(o=>o.order_id==this.order_id);
-                        if (orders != null)
+                        order order = db.orders.Find(order_id);
+                        card consumer_card = null;
+                        card vendorCard = null;
+                        if (order != null)
                         {
-                            foreach (order obj in orders)
+                            IEnumerable<card_order> Card_order = db.card_orders.Where(o=>o.order_id==this.order_id);
+                            foreach (card_order obj in Card_order)
                             {
-                                if(obj)
+                                if (obj.isconsumer)
+                                {
+                                    consumer_card = db.cards.Find(obj.card_id);
+                                }
+                                else
+                                {
+                                    vendorCard = db.cards.Find(obj.card_id);
+                                }
                             }
-                            card consumer_card = db.cards.Find(order.consumer_id);
-                            card vendorCard = db.cards.Find(order.vendor_id);
                             if (consumer_card != null && vendorCard != null)
                             {
                                 consumer_card.cash += order.amount_kop;

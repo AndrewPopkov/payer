@@ -32,8 +32,8 @@ C:\Users\Popkov\Documents\GitHub\payer\serverpayer\APIMetods\bin\Debug\Newtonsof
 C:\Users\Popkov\Documents\GitHub\payer\serverpayer\APIMetods\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Popkov\Documents\GitHub\payer\serverpayer\APIMetods\bin\Debug\ru\EntityFramework.resources.dll
 C:\Users\Popkov\Documents\GitHub\payer\serverpayer\APIMetods\bin\Debug\ru\EntityFramework.SqlServer.resources.dll
-C:\Users\Андрей\Desktop\payer\serverpayer\APIMetods\bin\Debug\bankGateway.mdf
-C:\Users\Андрей\Desktop\payer\serverpayer\APIMetods\bin\Debug\bankGateway_log.ldf
 C:\Users\Popkov\Desktop\payer\serverpayer\APIMetods\obj\Debug\APIMetods.csprojResolveAssemblyReference.cache
 C:\Users\Popkov\Desktop\payer\serverpayer\APIMetods\obj\Debug\APIMetods.dll
 C:\Users\Popkov\Desktop\payer\serverpayer\APIMetods\obj\Debug\APIMetods.pdb
+C:\Users\Андрей\Desktop\payer\serverpayer\APIMetods\bin\Debug\System.Data.SqlServerCe.dll
+C:\Users\Андрей\Desktop\payer\serverpayer\APIMetods\bin\Debug\RU\System.Data.SqlServerCe.resources.dll
