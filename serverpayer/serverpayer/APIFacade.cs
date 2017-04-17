@@ -14,26 +14,19 @@ namespace serverpayer
         private string curentMethod;
         private Dictionary<string,string> paramsMethod;
         private Dictionary<string, IResponseGateway> listMethods;
-        //добавляем нужные фукции апи
-        private void  InitializationAPI()
+       
+        public void AddAPI(string str, IResponseGateway ResponseGateway)
         {
-            this.listMethods =new  Dictionary<string, IResponseGateway>();
-            InitializationPay();
-            InitializationGetStatus();
-            InitializationRefund();
+            this.listMethods.Add(str, ResponseGateway);
         }
-        private void InitializationGetStatus()
-        {
-            this.listMethods.Add("GetStatus", new GetStatusGateway());
-        }
-        private void InitializationPay()
-        {
-            this.listMethods.Add("Pay", new PayGateway());
-        }
-        private void InitializationRefund()
-        {
-            this.listMethods.Add("Refund", new RefundGateway());
-        }
+        //private void InitializationPay()
+        //{
+        //    this.listMethods.Add("Pay", new PayGateway());
+        //}
+        //private void InitializationRefund()
+        //{
+        //    this.listMethods.Add("Refund", new RefundGateway());
+        //}
 
             
 
@@ -67,18 +60,18 @@ namespace serverpayer
             return paramsMethod;
         }
 
-        APIFacade(string url)
+       public APIFacade()
         {
-            this.urlAPI = url.Replace(" ", string.Empty);         
-            this.curentMethod = getMethod();
-            this.paramsMethod=getParams();
-            InitializationAPI();
+            this.listMethods = new Dictionary<string, IResponseGateway>();
+            
         }
 
-        public static string  getResult(string url)
+        public string  getResult(string url)
         {
-            APIFacade curentFacade = new APIFacade(url);
-            JObject obj = curentFacade.listMethods[curentFacade.curentMethod].ResponseGateway(curentFacade.paramsMethod);
+            this.urlAPI = url.Replace(" ", string.Empty);
+            this.curentMethod = getMethod();
+            this.paramsMethod = getParams();
+            JObject obj = listMethods[curentMethod].ResponseGateway(paramsMethod);
             return obj.ToString();
 
         }

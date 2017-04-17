@@ -7,6 +7,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using LogHelper;
 using System.IO;
+using APIMetods;
 
 namespace serverpayer
 {
@@ -131,7 +132,11 @@ namespace serverpayer
             if(Regex.Match(requestedUrl,@"^(/api)").Success)
             {
                 requestedUrl=requestedUrl.Replace("/api/", string.Empty);
-                sendOkResponse(clientSocket, charEncoder.GetBytes(APIFacade.getResult(requestedUrl)), "text/json");
+                APIFacade facade = new APIFacade();
+                facade.AddAPI("Pay", new PayGateway());
+                facade.AddAPI("Refund", new RefundGateway());
+                facade.AddAPI("GetStatus", new GetStatusGateway());
+                sendOkResponse(clientSocket, charEncoder.GetBytes(facade.getResult(requestedUrl)), "text/json");
             }
             else
             {
