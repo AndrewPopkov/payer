@@ -196,8 +196,4 @@ namespace APIMetods
             return GetResponseStatus((statusEnum)result);
         }
 
-        public JObject TestPay()
-        {
-
-        }
 }

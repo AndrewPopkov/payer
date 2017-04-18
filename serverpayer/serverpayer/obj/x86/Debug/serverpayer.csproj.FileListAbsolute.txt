@@ -52,3 +52,4 @@ C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\ru\EntityF
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\xunit.dll
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\xunit.xml
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\APIMetods.dll.config
+C:\Users\Popkov\Desktop\payer\serverpayer\serverpayer\bin\Debug\serverpayer.exe.config
