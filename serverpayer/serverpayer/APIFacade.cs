@@ -18,17 +18,7 @@ namespace serverpayer
         public void AddAPI(string str, IResponseGateway ResponseGateway)
         {
             this.listMethods.Add(str, ResponseGateway);
-        }
-        //private void InitializationPay()
-        //{
-        //    this.listMethods.Add("Pay", new PayGateway());
-        //}
-        //private void InitializationRefund()
-        //{
-        //    this.listMethods.Add("Refund", new RefundGateway());
-        //}
-
-            
+        }           
 
         private string getMethod()
         {

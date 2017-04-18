@@ -15,6 +15,9 @@ namespace UnitTestServer
         {
             // use Moq to create a fake version of an ICreditCheckerGateway
             var fakeGateway = new Mock<IResponseGateway>();
+            fakeGateway.Setup(ld => ld.ResponseGateway()).Returns("");
+            fakeGateway.Setup(ld => ld.GetDirectoryByLoggerName(It.IsAny<string>())).Returns("C:\\Temp");
+            fakeGateway.SetupGet(ld => ld.DefaultLogger).Returns("DefaultLogger");
 
             //// create the sut and pass the fake version to it's constructor
             //var sut = APIFacade.getResult(fakeGateway);
