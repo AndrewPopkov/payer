@@ -10,8 +10,6 @@ C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\obj\x86\Debug\server
 C:\Users\Popkov\Documents\GitHub\payer\serverpayer\serverpayer\obj\x86\Debug\serverpayer.csprojResolveAssemblyReference.cache
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\APIMetods.dll
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\APIMetods.pdb
-C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\database\bankGateway.mdf
-C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\database\bankGateway_log.ldf
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\EntityFramework.dll
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\Newtonsoft.Json.pdb
@@ -51,5 +49,4 @@ C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\EntityFram
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\ru\EntityFramework.SqlServer.resources.dll
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\xunit.dll
 C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\xunit.xml
-C:\Users\Андрей\Desktop\payer\serverpayer\serverpayer\bin\Debug\APIMetods.dll.config
 C:\Users\Popkov\Desktop\payer\serverpayer\serverpayer\bin\Debug\serverpayer.exe.config

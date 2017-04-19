@@ -6,8 +6,6 @@ C:\Users\Popkov\Documents\GitHub\payer\serverpayer\APIMetods\obj\Debug\APIMetods
 C:\Users\Андрей\Desktop\payer\serverpayer\APIMetods\obj\Debug\APIMetods.csprojResolveAssemblyReference.cache
 C:\Users\Андрей\Desktop\payer\serverpayer\APIMetods\obj\Debug\APIMetods.dll
 C:\Users\Андрей\Desktop\payer\serverpayer\APIMetods\obj\Debug\APIMetods.pdb
-C:\Users\Андрей\Desktop\payer\serverpayer\APIMetods\bin\Debug\database\bankGateway.mdf
-C:\Users\Андрей\Desktop\payer\serverpayer\APIMetods\bin\Debug\database\bankGateway_log.ldf
 C:\Users\Андрей\Desktop\payer\serverpayer\APIMetods\bin\Debug\APIMetods.dll.config
 C:\Users\Андрей\Desktop\payer\serverpayer\APIMetods\bin\Debug\APIMetods.dll
 C:\Users\Андрей\Desktop\payer\serverpayer\APIMetods\bin\Debug\APIMetods.pdb

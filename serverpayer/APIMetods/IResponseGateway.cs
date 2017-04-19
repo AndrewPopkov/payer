@@ -8,6 +8,7 @@ namespace APIMetods
 {
     public interface IResponseGateway
     {
-         JObject ResponseGateway(Dictionary<string, string> param);
+          JObject ResponseGateway(Dictionary<string, string> _param);
+
     }
 }

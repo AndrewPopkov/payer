@@ -13,7 +13,7 @@ namespace APIMetods
     {
         enum statusEnum
         {
-            Ok=1,
+            Ok = 1,
             BackTransaction,
             WrongData,
             CloseLimit,
@@ -29,6 +29,7 @@ namespace APIMetods
         private int cvv;
         private decimal amount_kop;
         private string cardholder_name;
+        private Dictionary<string, string> param;
 
         public PayGateway()
         {
@@ -46,26 +47,25 @@ namespace APIMetods
             }
             return response;
         }
-        private bool PayValidationParams(string str_order_id, string card_number, string str_expiry_month,string str_expiry_year,
-                                         string str_cvv, string str_amount_kop,string cardholder_name)
+        private bool CheckValidationParams()
         {
             bool ValidationData = false;
-            if (Regex.Match(card_number, @"(\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d)").Success)
+            if (Regex.Match(param["card_number"], @"(\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d)").Success)
             {
                 ValidationData = true;
-                this.card_number = card_number;
+                this.card_number = param["card_number"];
             }
-            if (Regex.Match(str_order_id, @"(\d+)").Success && ValidationData)
+            if (Regex.Match(param["order_id"], @"(\d+)").Success && ValidationData)
             {
-                ValidationData = int.TryParse(str_order_id, out this.order_id);
+                ValidationData = int.TryParse(param["order_id"], out this.order_id);
             }
             else
             {
                 ValidationData = false;
             }
-            if (Regex.Match(str_expiry_month, @"(\d|[\d\d])").Success && ValidationData)
+            if (Regex.Match(param["expiry_month"], @"(\d|[\d\d])").Success && ValidationData)
             {
-                if (ValidationData = int.TryParse(str_expiry_month, out this.expiry_month) && ValidationData)
+                if (ValidationData = int.TryParse(param["expiry_month"], out this.expiry_month) && ValidationData)
                 {
 
                     ValidationData = this.expiry_month > 0 && this.expiry_month <= 12;
@@ -76,38 +76,38 @@ namespace APIMetods
             {
                 ValidationData = false;
             }
-            if (Regex.Match(str_expiry_year, @"([\d\d\d\d])").Success && ValidationData)
+            if (Regex.Match(param["expiry_year"], @"([\d\d\d\d])").Success && ValidationData)
             {
-                if (ValidationData = int.TryParse(str_expiry_year, out this.expiry_year) && ValidationData)
+                if (ValidationData = int.TryParse(param["expiry_year"], out this.expiry_year) && ValidationData)
                 {
 
                     ValidationData = this.expiry_year > 2000 && this.expiry_month <= 2100;
-                    
+
                 }
             }
             else
             {
                 ValidationData = false;
             }
-            if (Regex.Match(str_cvv, @"(\d\d\d)").Success && ValidationData)
+            if (Regex.Match(param["cvv"], @"(\d\d\d)").Success && ValidationData)
             {
-                ValidationData = int.TryParse(str_cvv, out this.cvv);
-      
+                ValidationData = int.TryParse(param["cvv"], out this.cvv);
+
             }
             else
             {
                 ValidationData = false;
             }
-            if (Regex.Match(str_amount_kop, @"(\d+)").Success && ValidationData)
+            if (Regex.Match(param["amount_kop"], @"(\d+)").Success && ValidationData)
             {
-                ValidationData = decimal.TryParse(str_amount_kop, out this.amount_kop);
+                ValidationData = decimal.TryParse(param["amount_kop"], out this.amount_kop);
             }
             else
             {
                 ValidationData = false;
             }
 
-            this.cardholder_name = cardholder_name;
+            this.cardholder_name = param["cardholder_name"];
             return ValidationData;
 
         }
@@ -124,9 +124,9 @@ namespace APIMetods
                         card consumerCard = db.cards.Where(p => (p.card_number == card_number) &&
                                                             (p.expiry_month == this.expiry_month) &&
                                                             (p.expiry_year == this.expiry_year) &&
-                                                            (p.cvv == this.cvv) && 
+                                                            (p.cvv == this.cvv) &&
                                                             (cardholder_name != null ? p.cardholder_name == cardholder_name : true)).FirstOrDefault();
-                        if (consumerCard != null && vendorCard!=null)
+                        if (consumerCard != null && vendorCard != null)
                         {
                             if (this.amount_kop > consumerCard.cash)
                             {
@@ -158,16 +158,16 @@ namespace APIMetods
                         db.SaveChanges();
                         card_order card_orderConsumer = new card_order()
                         {
-                            card_id=consumerCard.card_id,
+                            card_id = consumerCard.card_id,
                             order_id = this.order_id,
-                            isconsumer=true
+                            isconsumer = true
                         };
                         db.card_orders.Add(card_orderConsumer);
                         card_order card_orderVendor = new card_order()
                         {
                             card_id = vendorCard.card_id,
                             order_id = this.order_id,
-                            isconsumer=false
+                            isconsumer = false
                         };
                         db.card_orders.Add(card_orderVendor);
                         db.SaveChanges();
@@ -183,9 +183,10 @@ namespace APIMetods
             }
         }
 
-        public JObject ResponseGateway(Dictionary<string, string> param)
+        public JObject ResponseGateway(Dictionary<string, string> _param)
         {
-            if(PayValidationParams(param["order_id"],param["card_number"],param["expiry_month"],param["expiry_year"],param["cvv"], param["amount_kop"],param["cardholder_name"]))
+            param = _param;
+            if (CheckValidationParams())
             {
                 Pay();
             }
@@ -196,4 +197,5 @@ namespace APIMetods
             return GetResponseStatus((statusEnum)result);
         }
 
+    }
 }

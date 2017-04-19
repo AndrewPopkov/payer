@@ -24,10 +24,11 @@ namespace APIMetods
         private JObject result;
         private readonly int vendorCard_id = 1;
         private int order_id;
+        private Dictionary<string, string> param;
 
         public GetStatusGateway()
         {
-
+            
         }
 
         private JObject GetResponseStatus(statusEnum stat)
@@ -42,12 +43,12 @@ namespace APIMetods
             return response;
         }
 
-        private bool GetStatusValidationParams(string str_order_id)
+        private bool CheckValidationParams()
         {
             bool ValidationData = false;
-            if (Regex.Match(str_order_id, @"(\d+)").Success)
+            if (Regex.Match(param["order_id"], @"(\d+)").Success)
             {
-                ValidationData = int.TryParse(str_order_id, out this.order_id);
+                ValidationData = int.TryParse(param["order_id"], out this.order_id);
             }
             return ValidationData;
         }
@@ -71,9 +72,10 @@ namespace APIMetods
             }
         }
 
-        public JObject ResponseGateway(Dictionary<string, string> param)
+        public JObject ResponseGateway(Dictionary<string, string> _param)
         {
-            if (GetStatusValidationParams(param["order_id"]))
+            param = _param;
+            if (CheckValidationParams())
             {
                 GetStatus();
             }
