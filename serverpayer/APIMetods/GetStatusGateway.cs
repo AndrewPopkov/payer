@@ -34,12 +34,9 @@ namespace APIMetods
         private JObject GetResponseStatus(statusEnum stat)
         {
             JObject response = new JObject();
-            using (GatewayContext db = new GatewayContext())
-            {
-                status statusObj = db.statuses.Find((int)stat);                
-                result.Add("id", statusObj.status_id);
-                result.Add("mesasage", statusObj.mesasage);
-            }
+            status statusObj = GatewayContext.statuses.Find(s => s.status_id == (int)stat);
+            response.Add("id", statusObj.status_id);
+            response.Add("mesasage", statusObj.mesasage);
             return response;
         }
 
@@ -55,21 +52,13 @@ namespace APIMetods
 
         public void GetStatus()
         {
-            using (GatewayContext db = new GatewayContext())
+
+            order order = GatewayContext.orders.Find(o=>o.order_id==this.order_id);
+            if (order != null)
             {
-                try
-                {
-                    order order = db.orders.Find(this.order_id);
-                    if (order != null)
-                    {
-                        result = GetResponseStatus((statusEnum)order.status_id);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log.Write(ex);
-                }
+                result = GetResponseStatus((statusEnum)order.status_id);
             }
+
         }
 
         public JObject ResponseGateway(Dictionary<string, string> _param)

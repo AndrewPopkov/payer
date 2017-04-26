@@ -11,7 +11,7 @@ namespace APIMetods
 {
     public class PayGateway : IResponseGateway
     {
-        enum statusEnum
+        enum StatusEnum
         {
             Ok = 1,
             BackTransaction,
@@ -20,8 +20,8 @@ namespace APIMetods
             ValidationError
         }
         //ид банка
-        private statusEnum result;
-        private readonly int vendorCard_id = 2;
+        private StatusEnum result;
+        private readonly int vendorCard_id = 1;
         private int order_id;
         private string card_number;
         private int expiry_month;
@@ -36,15 +36,12 @@ namespace APIMetods
 
         }
 
-        private JObject GetResponseStatus(statusEnum stat)
+        private JObject GetResponseStatus(StatusEnum stat)
         {
             JObject response = new JObject();
-            using (GatewayContext db = new GatewayContext())
-            {
-                status statusObj = db.statuses.Find((int)stat);
-                response.Add("id", statusObj.status_id);
-                response.Add("mesasage", statusObj.mesasage);
-            }
+            status statusObj = GatewayContext.statuses.Find(s=>s.status_id==(int)stat);
+            response.Add("id", statusObj.status_id);
+            response.Add("mesasage", statusObj.mesasage);
             return response;
         }
         private bool CheckValidationParams()
@@ -114,73 +111,55 @@ namespace APIMetods
 
         private void Pay()
         {
-            using (GatewayContext db = new GatewayContext())
+            card vendorCard = GatewayContext.cards.Find(c=>c.card_id== vendorCard_id);
+            card consumerCard = GatewayContext.cards.Where(p => (p.card_number == card_number) &&
+                                                (p.expiry_month == this.expiry_month) &&
+                                                (p.expiry_year == this.expiry_year) &&
+                                                (p.cvv == this.cvv) &&
+                                                (cardholder_name != null ? p.cardholder_name == cardholder_name : true)).FirstOrDefault();
+            if (consumerCard != null && vendorCard != null)
             {
-                using (var transaction = db.Database.BeginTransaction())
+                if (this.amount_kop > consumerCard.cash)
                 {
-                    try
+                    result = StatusEnum.CloseLimit;
+                }
+                else
+                {
+                    result = StatusEnum.Ok;
+                    consumerCard.cash -= this.amount_kop;
+                    if (vendorCard.cash != null)
                     {
-                        card vendorCard = db.cards.Find(vendorCard_id);
-                        card consumerCard = db.cards.Where(p => (p.card_number == card_number) &&
-                                                            (p.expiry_month == this.expiry_month) &&
-                                                            (p.expiry_year == this.expiry_year) &&
-                                                            (p.cvv == this.cvv) &&
-                                                            (cardholder_name != null ? p.cardholder_name == cardholder_name : true)).FirstOrDefault();
-                        if (consumerCard != null && vendorCard != null)
-                        {
-                            if (this.amount_kop > consumerCard.cash)
-                            {
-                                result = statusEnum.CloseLimit;
-                            }
-                            else
-                            {
-                                result = statusEnum.Ok;
-                                consumerCard.cash -= this.amount_kop;
-                                if (vendorCard.cash != null)
-                                {
-                                    vendorCard.cash += this.amount_kop;
-                                }
-                                db.SaveChanges();
-
-                            }
-                        }
-                        else
-                        {
-                            result = statusEnum.WrongData;
-                        }
-                        order order = new order()
-                        {
-                            status_id = (int)result,
-                            order_id = this.order_id,
-                            amount_kop = this.amount_kop
-                        };
-                        db.orders.Add(order);
-                        db.SaveChanges();
-                        card_order card_orderConsumer = new card_order()
-                        {
-                            card_id = consumerCard.card_id,
-                            order_id = this.order_id,
-                            isconsumer = true
-                        };
-                        db.card_orders.Add(card_orderConsumer);
-                        card_order card_orderVendor = new card_order()
-                        {
-                            card_id = vendorCard.card_id,
-                            order_id = this.order_id,
-                            isconsumer = false
-                        };
-                        db.card_orders.Add(card_orderVendor);
-                        db.SaveChanges();
-                        transaction.Commit();
+                        vendorCard.cash += this.amount_kop;
                     }
 
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        Log.Write(ex);
-                    }
                 }
             }
+            else
+            {
+                result = StatusEnum.WrongData;
+            }
+            order order = new order()
+            {
+                status_id = (int)result,
+                order_id = this.order_id,
+                amount_kop = this.amount_kop
+            };
+            GatewayContext.orders.Add(order);
+            card_order card_orderConsumer = new card_order()
+            {
+                card_id = consumerCard.card_id,
+                order_id = this.order_id,
+                isconsumer = true
+            };
+            GatewayContext.card_orders.Add(card_orderConsumer);
+            card_order card_orderVendor = new card_order()
+            {
+                card_id = vendorCard.card_id,
+                order_id = this.order_id,
+                isconsumer = false
+            };
+            GatewayContext.card_orders.Add(card_orderVendor);
+
         }
 
         public JObject ResponseGateway(Dictionary<string, string> _param)
@@ -192,9 +171,9 @@ namespace APIMetods
             }
             else
             {
-                result = statusEnum.ValidationError;
+                result = StatusEnum.ValidationError;
             }
-            return GetResponseStatus((statusEnum)result);
+            return GetResponseStatus((StatusEnum)result);
         }
 
     }

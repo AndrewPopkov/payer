@@ -11,7 +11,7 @@ namespace APIMetods.database.model
         public card_order()
         {
         }
-        [Key]
+
         public int card_order_id { get; set; }
         public int card_id { get; set; }
         public int order_id { get; set; }

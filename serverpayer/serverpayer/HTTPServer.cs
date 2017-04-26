@@ -136,7 +136,7 @@ namespace serverpayer
                 facade.AddAPI("Pay", new PayGateway());
                 facade.AddAPI("Refund", new RefundGateway());
                 facade.AddAPI("GetStatus", new GetStatusGateway());
-                sendOkResponse(clientSocket, charEncoder.GetBytes(facade.getResult(requestedUrl)), "text/json");
+                sendOkResponse(clientSocket, charEncoder.GetBytes(facade.GetResult(requestedUrl)), "text/json");
             }
             else
             {

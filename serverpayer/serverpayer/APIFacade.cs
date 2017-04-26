@@ -20,7 +20,7 @@ namespace serverpayer
             this.listMethods.Add(str, ResponseGateway);
         }           
 
-        private string getMethod()
+        private string GetMethod()
         {
             string buf=string.Empty;
             buf = urlAPI.Substring(0, this.urlAPI.IndexOf("?"));
@@ -31,7 +31,7 @@ namespace serverpayer
             this.urlAPI=urlAPI.Replace(buf, string.Empty);
             return buf;
         }
-        private Dictionary<string, string> getParams()
+        private Dictionary<string, string> GetParams()
         {
             
             Regex re = new Regex(@"([?&]\w*=\w*)", RegexOptions.IgnoreCase);
@@ -56,11 +56,11 @@ namespace serverpayer
             
         }
 
-        public string  getResult(string url)
+        public string  GetResult(string url)
         {
             this.urlAPI = url.Replace(" ", string.Empty);
-            this.curentMethod = getMethod();
-            this.paramsMethod = getParams();
+            this.curentMethod = GetMethod();
+            this.paramsMethod = GetParams();
             JObject obj = listMethods[curentMethod].ResponseGateway(paramsMethod);
             return obj.ToString();
 
